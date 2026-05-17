@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 // then React hydrates with the actual data → mismatch → hydration errors #418/#423/#425.
 const ScoutingApp = dynamic(() => import("./ScoutingApp"), {
   ssr: false,
-  loading: () => <div style={{ background: "#0B0A0F", minHeight: "100vh" }} />,
+  loading: () => <div style={{ background: "#0B0D1A", minHeight: "100vh" }} />,
 });
 
 export default function Page({ searchParams }) {

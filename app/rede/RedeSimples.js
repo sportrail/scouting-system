@@ -5,13 +5,13 @@ import { useState, useEffect } from "react";
 const KEY = "sportrail_rede_simples_v1";
 
 const S = {
-  bg: "#0B0A0F", panel: "#13121a", border: "#2a2a2f",
-  red: "#ED1C24", text: "#f5f5f5", muted: "#888",
+  bg: "#0B0D1A", panel: "#161929", border: "#2A2E48",
+  red: "#DDB85C", text: "#E8EAF2", muted: "#5E6383",
 };
 
 const inp = {
-  background: "#1a1a1f", border: `1px solid #2a2a2f`, borderRadius: 8,
-  color: "#f5f5f5", fontSize: 14, padding: "10px 13px", width: "100%",
+  background: "#1F2338", border: `1px solid #2A2E48`, borderRadius: 8,
+  color: "#E8EAF2", fontSize: 14, padding: "10px 13px", width: "100%",
   outline: "none", fontFamily: "inherit", boxSizing: "border-box",
 };
 
@@ -48,7 +48,7 @@ const loadScript = (src) => new Promise((res, rej) => {
 const wrap = (doc, text, x, maxW, lineH, y) => {
   const lines = doc.splitTextToSize(String(text || "—"), maxW);
   lines.forEach(line => {
-    if (y > 272) { doc.addPage(); doc.setFillColor(11, 10, 15); doc.rect(0, 0, 210, 297, "F"); y = 16; }
+    if (y > 272) { doc.addPage(); doc.setFillColor(11, 13, 26); doc.rect(0, 0, 210, 297, "F"); y = 16; }
     doc.text(line, x, y);
     y += lineH;
   });
@@ -60,8 +60,8 @@ async function gerarPDF(rede) {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ unit: "mm", format: "a4" });
 
-  const BG   = [11, 10, 15];
-  const RED  = [237, 28, 36];
+  const BG   = [11, 13, 26];
+  const RED  = [221, 184, 92];
   const TEXT = [245, 245, 245];
   const MUTED= [136, 136, 136];
   const PANEL= [19, 18, 26];
@@ -349,11 +349,11 @@ export default function RedeSimples() {
             Lista os elementos do departamento, o cargo de cada um e as suas principais competências ou responsabilidades.
           </p>
           {rede.membros.map((m, i) => (
-            <div key={m.id} style={{ background: "#0b0a0f", border: `1px solid ${S.border}`, borderRadius: 10, padding: "16px", marginBottom: 12 }}>
+            <div key={m.id} style={{ background: "#0B0D1A", border: `1px solid ${S.border}`, borderRadius: 10, padding: "16px", marginBottom: 12 }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
                 <span style={{ fontSize: 11, color: S.red, fontWeight: 800, textTransform: "uppercase", letterSpacing: 1 }}>Elemento {i + 1}</span>
                 {rede.membros.length > 1 && (
-                  <button onClick={() => delMembro(m.id)} style={{ background: "transparent", border: "none", color: "#ef4444", cursor: "pointer", fontSize: 12, fontFamily: "inherit" }}>
+                  <button onClick={() => delMembro(m.id)} style={{ background: "transparent", border: "none", color: "#C46868", cursor: "pointer", fontSize: 12, fontFamily: "inherit" }}>
                     Remover
                   </button>
                 )}
@@ -388,11 +388,11 @@ export default function RedeSimples() {
             Define as zonas geográficas que a rede vai cobrir, com os clubes e competições relevantes em cada área.
           </p>
           {rede.areas.map((a, i) => (
-            <div key={a.id} style={{ background: "#0b0a0f", border: `1px solid ${S.border}`, borderRadius: 10, padding: "16px", marginBottom: 12 }}>
+            <div key={a.id} style={{ background: "#0B0D1A", border: `1px solid ${S.border}`, borderRadius: 10, padding: "16px", marginBottom: 12 }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
                 <span style={{ fontSize: 11, color: S.red, fontWeight: 800, textTransform: "uppercase", letterSpacing: 1 }}>Área {i + 1}</span>
                 {rede.areas.length > 1 && (
-                  <button onClick={() => delArea(a.id)} style={{ background: "transparent", border: "none", color: "#ef4444", cursor: "pointer", fontSize: 12, fontFamily: "inherit" }}>
+                  <button onClick={() => delArea(a.id)} style={{ background: "transparent", border: "none", color: "#C46868", cursor: "pointer", fontSize: 12, fontFamily: "inherit" }}>
                     Remover
                   </button>
                 )}
