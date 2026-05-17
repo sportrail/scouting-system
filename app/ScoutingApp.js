@@ -231,7 +231,7 @@ const emptyReport = (mode) => ({
   id: newId(),
   createdAt: Date.now(),
   mode, foto: "", nome: "", dataNasc: "", naturalidade: "", nacionalidade: "",
-  clube: "", contratoAte: "", percurso: "", agente: "",
+  clube: "", contratoAte: "", percurso: "", agente: "", bio: "", db_player_id: "",
   pos: "MC", posSec: "", pe: "Direito", altura: "", peso: "",
   data: "", comp: "", adv: "", resultado: "", min: "", sistema: "",
   atr: {}, dim: {}, cats: {},
@@ -408,6 +408,11 @@ export default function Builder({ meshParams = null }) {
   const [compareIds, setCompareIds] = useState([]);
   const [showCompareView, setShowCompareView] = useState(false);
   const [showPosAvg, setShowPosAvg] = useState(false); // unused — kept for radarData compat
+  const [playerDbOpen, setPlayerDbOpen] = useState(false);
+  const [playerDb, setPlayerDb] = useState(null); // { players, clubs } | null
+  const [playerDbLoading, setPlayerDbLoading] = useState(false);
+  const [playerDbError, setPlayerDbError] = useState(false);
+  const [dbQuery, setDbQuery] = useState("");
   const shareRef = useRef();
   const shareSquareRef = useRef();
   const shareVerticalRef = useRef();
@@ -620,6 +625,55 @@ export default function Builder({ meshParams = null }) {
     nr.scout = r?.scout || "";
     setStore(s => ({ reports: { ...s.reports, [nr.id]: nr }, activeId: nr.id }));
     // Auto-close sidebar on mobile
+    if (typeof window !== "undefined" && window.matchMedia("(max-width: 768px)").matches) {
+      setSidebarOpen(false);
+    }
+  };
+
+  const openPlayerDb = () => {
+    setPlayerDbOpen(true);
+    if (playerDb || playerDbLoading) return;
+    setPlayerDbLoading(true);
+    setPlayerDbError(false);
+    fetch("/data/scouting-db.json")
+      .then(res => { if (!res.ok) throw new Error("HTTP " + res.status); return res.json(); })
+      .then(data => setPlayerDb(data))
+      .catch(() => setPlayerDbError(true))
+      .finally(() => setPlayerDbLoading(false));
+  };
+
+  const buildBio = (p) => {
+    const parts = [];
+    if (p.idade != null) parts.push(`${p.idade} anos`);
+    if (p.posLabel) parts.push(p.posLabel);
+    if (p.numero) parts.push(`nº ${p.numero}`);
+    if (p.valorTexto) parts.push(`Valor de mercado: ${p.valorTexto}`);
+    if (p.competicao) parts.push(`${p.competicao}${p.tier ? ` (Tier ${p.tier})` : ""}`);
+    if (p.nacionalidades && p.nacionalidades !== p.nacionalidade)
+      parts.push(`Nacionalidades: ${p.nacionalidades.replace(/\|/g, ", ")}`);
+    parts.push(`Transfermarkt ID: ${p.id}`);
+    return parts.join(" · ");
+  };
+
+  const createReportFromDbPlayer = (p) => {
+    const existing = Object.values(store.reports).find(rep => rep.db_player_id === p.id);
+    if (existing) {
+      setStore(s => ({ ...s, activeId: existing.id }));
+    } else {
+      const nr = emptyReport("senior");
+      nr.scout = r?.scout || "";
+      nr.nome = p.nome || "";
+      nr.nacionalidade = p.nacionalidade || "";
+      nr.clube = p.clube || "";
+      nr.contratoAte = p.contratoAte || "";
+      nr.pos = p.pos || "MC";
+      nr.bio = buildBio(p);
+      nr.db_player_id = p.id;
+      setStore(s => ({ reports: { ...s.reports, [nr.id]: nr }, activeId: nr.id }));
+    }
+    setPlayerDbOpen(false);
+    setDbQuery("");
+    setShowValidation(false);
     if (typeof window !== "undefined" && window.matchMedia("(max-width: 768px)").matches) {
       setSidebarOpen(false);
     }
@@ -1020,6 +1074,7 @@ export default function Builder({ meshParams = null }) {
           {!compareMode ? (
             <>
               <button onClick={newReport} style={{ width: "100%", padding: "10px", background: S.red, color: "#fff", border: "none", borderRadius: 6, fontSize: 12, fontWeight: 700, letterSpacing: 1, cursor: "pointer" }}>+ NOVO RELATÓRIO</button>
+              <button onClick={openPlayerDb} style={{ width: "100%", padding: "9px", background: "transparent", color: "#fff", border: `1px solid ${S.border}`, borderRadius: 6, fontSize: 11, fontWeight: 600, letterSpacing: 0.5, cursor: "pointer" }}>🔍 PROCURAR JOGADOR</button>
               <button onClick={startCompareMode} style={{ width: "100%", padding: "9px", background: "transparent", color: "#fff", border: `1px solid ${S.border}`, borderRadius: 6, fontSize: 11, fontWeight: 600, letterSpacing: 0.5, cursor: "pointer" }}>⇄ COMPARAR JOGADORES</button>
             </>
           ) : (
@@ -1164,6 +1219,65 @@ export default function Builder({ meshParams = null }) {
         )}
       </aside>
 
+      {/* BASE DE DADOS DE JOGADORES */}
+      {playerDbOpen && (() => {
+        const q = dbQuery.trim().toLowerCase();
+        const all = playerDb?.players || [];
+        const matches = q
+          ? all.filter(p =>
+              (p.nome || "").toLowerCase().includes(q) ||
+              (p.clube || "").toLowerCase().includes(q))
+          : all;
+        const results = matches.slice(0, 60);
+        return (
+          <div className="no-print" onClick={() => setPlayerDbOpen(false)} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.7)", zIndex: 100, display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "6vh 16px" }}>
+            <div onClick={e => e.stopPropagation()} style={{ background: S.panel, border: `1px solid ${S.border}`, borderRadius: 10, width: "100%", maxWidth: 560, maxHeight: "82vh", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+              <div style={{ padding: "18px 20px 12px" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
+                  <h3 style={{ margin: 0, fontSize: 16 }}>Procurar jogador</h3>
+                  <button onClick={() => setPlayerDbOpen(false)} style={{ background: "none", border: "none", color: "#999", fontSize: 20, cursor: "pointer", lineHeight: 1 }}>×</button>
+                </div>
+                <p style={{ fontSize: 11, color: "#888", margin: "0 0 12px" }}>
+                  Base pré-carregada: {all.length || "—"} jogadores. Escolhe um para criar um relatório com os dados já preenchidos.
+                </p>
+                <input
+                  autoFocus
+                  style={{ ...inp, fontSize: 13 }}
+                  placeholder="Nome do jogador ou clube…"
+                  value={dbQuery}
+                  onChange={e => setDbQuery(e.target.value)}
+                />
+              </div>
+              <div style={{ flex: 1, overflowY: "auto", padding: "0 12px 12px" }}>
+                {playerDbLoading && <div style={{ padding: 24, textAlign: "center", color: "#888", fontSize: 12 }}>A carregar base de dados…</div>}
+                {playerDbError && <div style={{ padding: 24, textAlign: "center", color: "#ef4444", fontSize: 12 }}>Não foi possível carregar a base de dados.</div>}
+                {!playerDbLoading && !playerDbError && results.length === 0 && (
+                  <div style={{ padding: 24, textAlign: "center", color: "#666", fontSize: 12 }}>Sem resultados.</div>
+                )}
+                {results.map(p => (
+                  <button
+                    key={p.id}
+                    onClick={() => createReportFromDbPlayer(p)}
+                    style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, width: "100%", textAlign: "left", padding: "10px 12px", marginBottom: 4, background: "transparent", border: `1px solid ${S.border}`, borderRadius: 6, color: "#fff", cursor: "pointer" }}
+                  >
+                    <span style={{ minWidth: 0 }}>
+                      <span style={{ display: "block", fontSize: 13, fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.nome}</span>
+                      <span style={{ display: "block", fontSize: 10, color: "#888", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.posLabel} · {p.clube} · {p.idade != null ? `${p.idade}a` : "—"}</span>
+                    </span>
+                    <span style={{ fontSize: 11, color: S.red, fontWeight: 700, whiteSpace: "nowrap" }}>{p.valorTexto || ""}</span>
+                  </button>
+                ))}
+                {!playerDbLoading && !playerDbError && matches.length > results.length && (
+                  <div style={{ padding: "10px 4px", textAlign: "center", color: "#666", fontSize: 11 }}>
+                    A mostrar 60 de {matches.length}. Refina a pesquisa.
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      })()}
+
       {/* CONFIRM DELETE MODAL */}
       {confirmDelete && (
         <div className="no-print" style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.7)", zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -1245,6 +1359,7 @@ export default function Builder({ meshParams = null }) {
 
               {!showCompareView && (
                 <button onClick={() => window.print()} className="no-print" style={{ padding: "8px 14px", background: "#1a1a1f", color: "#aaa", border: `1px solid ${S.border}`, borderRadius: 6, fontSize: 11, fontWeight: 600, cursor: "pointer" }}>⎙ IMPRIMIR</button>
+              )}
               {/* GUARDAR */}
               {!showCompareView && (
                 <button
@@ -1449,6 +1564,7 @@ export default function Builder({ meshParams = null }) {
                 <div><label style={lbl}>Peso (kg)</label><input style={inp} value={r.peso} onChange={e=>u("peso",e.target.value)} /></div>
                 <div><label style={lbl}>Agente</label><input style={inp} value={r.agente} onChange={e=>u("agente",e.target.value)} /></div>
                 <div style={{ gridColumn: "1 / -1" }}><label style={lbl}>Percurso (clubes anteriores)</label><input style={inp} value={r.percurso} onChange={e=>u("percurso",e.target.value)} /></div>
+                <div style={{ gridColumn: "1 / -1" }}><label style={lbl}>Dados biográficos</label><textarea style={{ ...inp, minHeight: 64, resize: "vertical" }} value={r.bio} onChange={e=>u("bio",e.target.value)} placeholder="Idade, valor de mercado, competição, nacionalidades…" /></div>
               </div>
             </div>
           </div>
