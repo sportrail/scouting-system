@@ -92,6 +92,8 @@ const players = toObjects(parseCSV(playersCsv)).map(p => ({
   clube: p.club_name,
   competicao: p.competition_name,
   tier: p.tier ? Number(p.tier) : null,
+  // Coluna opcional no CSV (photo_url / foto_url / photo). Vazio = usa iniciais.
+  fotoUrl: (p.photo_url || p.foto_url || p.photo || "").trim(),
 })).sort((a, b) => (b.valorEur - a.valorEur) || a.nome.localeCompare(b.nome, "pt"));
 
 const clubs = toObjects(parseCSV(clubsCsv)).map(c => ({

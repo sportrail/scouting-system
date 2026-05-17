@@ -668,6 +668,7 @@ export default function Builder({ meshParams = null }) {
       nr.contratoAte = p.contratoAte || "";
       nr.pos = p.pos || "MC";
       nr.bio = buildBio(p);
+      nr.foto = p.fotoUrl || "";
       nr.db_player_id = p.id;
       setStore(s => ({ reports: { ...s.reports, [nr.id]: nr }, activeId: nr.id }));
     }
