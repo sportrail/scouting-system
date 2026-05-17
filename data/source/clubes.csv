@@ -1,0 +1,113 @@
+tier,competition,club_name,club_id,n_players,total_market_value_eur,avg_market_value_eur,valued_players_pct,avg_age,n_nationalities,pct_portuguese
+1,Liga Portugal Betclic,Sporting CP,336,25,466000000,18640000,100.0,24.9,13,48.0
+1,Liga Portugal Betclic,FC Porto,720,27,426900000,15811111,100.0,25.8,13,25.9
+1,Liga Portugal Betclic,SL Benfica,294,28,364500000,13017857,100.0,24.3,13,42.9
+1,Liga Portugal Betclic,SC Braga,1075,28,154900000,5532142,100.0,25.0,14,35.7
+1,Liga Portugal Betclic,FC Famalicão,3329,25,71900000,2876000,100.0,24.0,14,28.0
+1,Liga Portugal Betclic,GD Estoril Praia,1465,23,45700000,1986956,100.0,25.9,13,39.1
+1,Liga Portugal Betclic,Gil Vicente FC,2424,28,36350000,1298214,92.9,24.4,9,32.1
+1,Liga Portugal Betclic,Vitória SC,2420,24,36000000,1500000,100.0,24.5,12,41.7
+1,Liga Portugal Betclic,Rio Ave FC,2425,29,33650000,1160344,100.0,24.5,16,10.3
+1,Liga Portugal Betclic,FC Alverca,2521,29,33550000,1156896,100.0,24.1,13,20.7
+1,Liga Portugal Betclic,CD Santa Clara,2423,27,33000000,1222222,92.6,25.8,4,22.2
+1,Liga Portugal Betclic,Moreirense FC,979,26,29950000,1151923,100.0,24.2,6,42.3
+1,Liga Portugal Betclic,FC Arouca,8024,27,26150000,968518,100.0,24.6,11,18.5
+1,Liga Portugal Betclic,Casa Pia AC,3268,28,24800000,885714,100.0,27.3,15,32.1
+2,Liga Portugal 2,SL Benfica B,10330,27,24275000,899074,96.3,19.5,8,74.1
+1,Liga Portugal Betclic,CD Tondela,7179,26,24150000,928846,100.0,26.5,15,26.9
+1,Liga Portugal Betclic,CD Nacional,982,30,22475000,749166,100.0,26.1,10,26.7
+1,Liga Portugal Betclic,CF Estrela Amadora,2431,31,21000000,677419,100.0,24.8,18,16.1
+2,Liga Portugal 2,FC Porto B,10331,29,20000000,689655,89.7,20.5,7,72.4
+2,Liga Portugal 2,Sporting CP B,10949,29,15225000,525000,82.8,20.3,7,62.1
+1,Liga Portugal Betclic,Avs - Futebol SAD,110302,25,11550000,462000,100.0,28.0,10,20.0
+2,Liga Portugal 2,Académico de Viseu FC,7788,27,11475000,425000,96.3,25.8,12,33.3
+2,Liga Portugal 2,FC Vizela,6912,29,10900000,375862,100.0,25.7,16,24.1
+2,Liga Portugal 2,UD Leiria,2639,27,10800000,400000,100.0,26.3,11,25.9
+2,Liga Portugal 2,CS Marítimo,1301,25,10125000,405000,100.0,26.0,9,52.0
+2,Liga Portugal 2,SC União Torreense,2432,26,9575000,368269,88.5,24.9,11,23.1
+2,Liga Portugal 2,SC Farense,4294,29,9150000,315517,100.0,27.1,9,44.8
+2,Liga Portugal 2,GD Chaves,3325,27,8875000,328703,92.6,27.1,11,51.9
+2,Liga Portugal 2,FC Penafiel,3327,28,8350000,298214,96.4,26.5,7,39.3
+2,Liga Portugal 2,Leixões SC,3345,34,7875000,231617,91.2,26.6,13,50.0
+2,Liga Portugal 2,UD Oliveirense,8827,30,7200000,240000,100.0,26.0,8,43.3
+3,Liga 3,SC Braga B,10789,33,7200000,218181,21.2,20.1,4,78.8
+2,Liga Portugal 2,FC Felgueiras 1932,1701,27,6825000,252777,96.3,25.1,8,48.1
+2,Liga Portugal 2,FC Paços de Ferreira,2995,27,6050000,224074,81.5,24.5,5,66.7
+2,Liga Portugal 2,CD Feirense,3349,24,5600000,233333,95.8,25.4,9,29.2
+2,Liga Portugal 2,Portimonense SAD,7378,27,5300000,196296,92.6,24.8,8,29.6
+3,Liga 3,Vitória SC B,15136,34,4800000,141176,17.6,20.2,8,70.6
+2,Liga Portugal 2,Lusitânia de Lourosa FC,8189,27,4625000,171296,88.9,28.5,6,66.7
+3,Liga 3,CF Os Belenenses,68608,29,600000,20689,6.9,25.7,7,72.4
+3,Liga 3,União Santarém,74155,27,450000,16666,11.1,24.4,8,63.0
+4,Campeonato de Portugal - Série D,FC Alverca B,85471,39,350000,8974,7.7,20.5,9,69.2
+3,Liga 3,Varzim SC,4297,28,350000,12500,7.1,25.0,7,71.4
+3,Liga 3,SC Covilhã,10140,29,325000,11206,6.9,25.1,8,62.1
+3,Liga 3,Académica de Coimbra,2990,24,300000,12500,8.3,27.4,5,62.5
+4,Campeonato de Portugal - Série C,FC Oliveira do Hospital,7189,30,225000,7500,6.7,22.3,6,43.3
+3,Liga 3,SU 1º Dezembro,13573,29,200000,6896,6.9,25.0,8,65.5
+3,Liga 3,Amora FC,1414,30,200000,6666,3.3,25.3,5,70.0
+3,Liga 3,Amarante FC,7789,26,175000,6730,7.7,23.8,8,69.2
+3,Liga 3,AD Sanjoanense,6023,31,175000,5645,3.2,24.4,8,67.7
+4,Campeonato de Portugal - Série C,GD Vitória Sernache,41539,24,100000,4166,4.2,24.7,6,58.3
+4,Campeonato de Portugal - Série D,SU Sintrense,1992,25,100000,4000,4.0,24.2,6,56.0
+3,Liga 3,SC São João de Ver,15268,27,100000,3703,3.7,25.6,4,77.8
+4,Campeonato de Portugal - Série D,Juventude de Évora SC,7790,27,75000,2777,3.7,25.4,9,48.1
+4,Campeonato de Portugal - Série D,Clube Oriental Lisboa,4864,25,75000,3000,4.0,26.1,6,72.0
+3,Liga 3,Caldas SC,4275,28,75000,2678,3.6,25.8,4,89.3
+4,Campeonato de Portugal - Série B,Leça FC,3267,29,50000,1724,3.4,25.2,5,82.8
+4,Campeonato de Portugal - Série C,CD Fátima,6987,24,50000,2083,4.2,22.5,3,91.7
+4,Campeonato de Portugal - Série D,Portimonense SC,94930,28,25000,892,3.6,23.3,6,75.0
+4,Campeonato de Portugal - Série A,GD Chaves B,61209,26,0,0,0.0,21.5,9,61.5
+4,Campeonato de Portugal - Série A,GD Bragança,7117,26,0,0,0.0,25.0,8,61.5
+4,Campeonato de Portugal - Série A,AD Limianos,16222,24,0,0,0.0,24.4,5,83.3
+4,Campeonato de Portugal - Série A,FC Tirsense,2459,25,0,0,0.0,24.3,7,68.0
+4,Campeonato de Portugal - Série A,AD Camacha,5753,22,0,0,0.0,25.9,5,68.2
+4,Campeonato de Portugal - Série A,Brito SC,14080,22,0,0,0.0,25.8,3,77.3
+4,Campeonato de Portugal - Série A,CD Celoricense,92265,28,0,0,0.0,25.5,6,71.4
+4,Campeonato de Portugal - Série A,AD Machico,3264,26,0,0,0.0,26.7,6,65.4
+4,Campeonato de Portugal - Série A,SC Mirandela,10005,31,0,0,0.0,22.0,6,64.5
+4,Campeonato de Portugal - Série A,SC Vianense,7211,35,0,0,0.0,24.4,7,74.3
+4,Campeonato de Portugal - Série A,CD Ribeira Brava,6911,29,0,0,0.0,24.8,7,72.4
+4,Campeonato de Portugal - Série A,Vilaverdense FC,8424,25,0,0,0.0,23.8,6,72.0
+4,Campeonato de Portugal - Série A,Desportivo Monção,8720,22,0,0,0.0,24.4,5,72.7
+4,Campeonato de Portugal - Série A,AR São Martinho,50441,21,0,0,0.0,25.4,4,85.7
+4,Campeonato de Portugal - Série B,Rebordosa AC,8239,26,0,0,0.0,25.9,4,88.5
+4,Campeonato de Portugal - Série B,GD Resende,30618,26,0,0,0.0,24.8,5,61.5
+4,Campeonato de Portugal - Série B,AC Vila Meã,12522,26,0,0,0.0,25.7,6,73.1
+4,Campeonato de Portugal - Série B,Aparecida FC,92264,25,0,0,0.0,25.4,7,60.0
+4,Campeonato de Portugal - Série B,SC Salgueiros,2434,26,0,0,0.0,25.6,4,65.4
+4,Campeonato de Portugal - Série B,SC Vila Real,7118,25,0,0,0.0,24.9,4,80.0
+4,Campeonato de Portugal - Série B,FC Alpendorada,24785,24,0,0,0.0,25.5,2,91.7
+4,Campeonato de Portugal - Série B,SC Beira-Mar,1436,32,0,0,0.0,23.8,8,75.0
+4,Campeonato de Portugal - Série B,CD Cinfães,12988,22,0,0,0.0,27.1,4,72.7
+4,Campeonato de Portugal - Série B,CF União Lamas,2428,26,0,0,0.0,23.6,3,92.3
+4,Campeonato de Portugal - Série B,Anadia FC,4747,24,0,0,0.0,25.4,7,62.5
+4,Campeonato de Portugal - Série B,CD Gouveia,31808,22,0,0,0.0,21.4,6,77.3
+4,Campeonato de Portugal - Série B,Florgrade FC,93101,25,0,0,0.0,26.5,4,80.0
+4,Campeonato de Portugal - Série C,UD Serra,24518,25,0,0,0.0,26.2,4,88.0
+4,Campeonato de Portugal - Série C,"CF ""Os Marialvas""",8026,30,0,0,0.0,23.6,5,70.0
+4,Campeonato de Portugal - Série C,AC Marinhense,8616,33,0,0,0.0,21.8,8,60.6
+4,Campeonato de Portugal - Série C,GD Samora Correia,7537,29,0,0,0.0,23.6,5,75.9
+4,Campeonato de Portugal - Série C,Benfica Castelo Branco,7811,23,0,0,0.0,22.5,3,87.0
+4,Campeonato de Portugal - Série C,Associação Naval 1893,4814,24,0,0,0.0,24.9,4,79.2
+4,Campeonato de Portugal - Série C,Mortágua FC,50571,27,0,0,0.0,25.3,6,70.4
+4,Campeonato de Portugal - Série C,JD Lajense,73224,24,0,0,0.0,26.0,4,70.8
+4,Campeonato de Portugal - Série C,SC Lusitânia dos Açores,6896,30,0,0,0.0,21.8,6,60.0
+4,Campeonato de Portugal - Série C,GD Peniche,7637,26,0,0,0.0,25.5,5,76.9
+4,Campeonato de Portugal - Série C,Eléctrico FC,19637,21,0,0,0.0,23.7,5,71.4
+4,Campeonato de Portugal - Série D,O Elvas CAD,6910,28,0,0,0.0,25.4,11,53.6
+4,Campeonato de Portugal - Série D,FC Serpa,89198,36,0,0,0.0,23.5,9,58.3
+4,Campeonato de Portugal - Série D,AC Malveira,27745,26,0,0,0.0,25.7,7,61.5
+4,Campeonato de Portugal - Série D,LGC Moncarapachense,39854,22,0,0,0.0,25.0,5,63.6
+4,Campeonato de Portugal - Série D,Louletano DC,3352,30,0,0,0.0,23.6,7,56.7
+4,Campeonato de Portugal - Série D,GD Alcochetense,12815,24,0,0,0.0,24.8,4,83.3
+4,Campeonato de Portugal - Série D,CF Vasco da Gama,22213,21,0,0,0.0,25.2,4,66.7
+4,Campeonato de Portugal - Série D,UF Comércio e Indústria,31039,30,0,0,0.0,24.3,6,80.0
+4,Campeonato de Portugal - Série D,GD Lagoa,7536,27,0,0,0.0,25.6,5,70.4
+3,Liga 3,AD Marco 09,2829,25,0,0,0.0,26.4,4,84.0
+3,Liga 3,USC Paredes,5222,23,0,0,0.0,25.9,4,73.9
+3,Liga 3,CD Trofense,3348,31,0,0,0.0,26.2,6,74.2
+3,Liga 3,AD Fafe,3326,26,0,0,0.0,26.5,4,84.6
+3,Liga 3,Atlético CP,5227,27,0,0,0.0,25.9,8,51.9
+3,Liga 3,CD Mafra,7056,28,0,0,0.0,25.4,7,57.1
+3,Liga 3,Lusitano de Évora GC,3275,25,0,0,0.0,26.5,5,68.0
