@@ -1036,23 +1036,6 @@ export default function Builder({ meshParams = null }) {
           >{isDark ? "☀" : "☾"}</button>
         </div>
 
-        <a
-          href="/rede"
-          style={{
-            display: "flex", alignItems: "center", justifyContent: "space-between",
-            padding: "12px 16px", borderBottom: `1px solid ${S.border}`,
-            background: "rgba(221,184,92,0.06)", color: "#fff", textDecoration: "none",
-            fontSize: 12, fontWeight: 600, letterSpacing: 0.5
-          }}
-          title="Trabalho do aluno: criação da rede de scouting"
-        >
-          <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ fontSize: 14 }}>🌐</span>
-            <span>REDE DE SCOUTING</span>
-          </span>
-          <span style={{ fontSize: 10, color: S.red, fontWeight: 700 }}>TRABALHO →</span>
-        </a>
-
         {isTrainer && (
           <a
             href="/formador"
