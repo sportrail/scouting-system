@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 // RedeApp     — versão completa, reservada para uso futuro/comercial
 const RedeSimples = dynamic(() => import("./RedeSimples"), {
   ssr: false,
-  loading: () => <div style={{ background: "#0B0A0F", minHeight: "100vh" }} />,
+  loading: () => <div style={{ background: "#0B0D1A", minHeight: "100vh" }} />,
 });
 
 export default function RedePage() {

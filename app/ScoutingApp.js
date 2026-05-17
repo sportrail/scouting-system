@@ -80,7 +80,7 @@ const YOUTH_ATTR = ["Controlo orientado","Passe","Condução","1v1","Finalizaç�
 const DECISIONS = [
   { id: "contratar",    label: "CONTRATAR",     color: "#16a34a" },
   { id: "acompanhar",  label: "ACOMPANHAR",     color: "#eab308" },
-  { id: "sem_interesse",label: "SEM INTERESSE", color: "#dc2626" }
+  { id: "sem_interesse",label: "SEM INTERESSE", color: "#C46868" }
 ];
 
 // ─── SÉNIOR: parâmetros por posição (4 categorias × 7 itens) ─────────────────
@@ -151,17 +151,17 @@ const TAP_VALS = [1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5];
 // Traffic-light colour helpers (semáforo)
 // 1–5 scale: green ≥4 (80%), yellow ≥2.5 (50%), red below
 const tapColor = (v) => {
-  if (!v) return "#3a3a42";
+  if (!v) return "#383D5C";
   if (v >= 4) return "#22c55e";
   if (v >= 2.5) return "#eab308";
-  return "#ef4444";
+  return "#C46868";
 };
 // 0–10 scale: green ≥8 (80%), yellow ≥5 (50%), red below
 const sliderColor = (v) => {
   if (v >= 8) return "#22c55e";
   if (v >= 5) return "#eab308";
-  if (v > 0) return "#ef4444";
-  return "#3a3a42";
+  if (v > 0) return "#C46868";
+  return "#383D5C";
 };
 
 const calcAutoNotaSenior = (cats, pos) => {
@@ -177,24 +177,24 @@ const calcAutoNotaSenior = (cats, pos) => {
 // v11: Theme system (dark/light)
 const THEMES = {
   dark: {
-    bg: "#0B0A0F",
-    panel: "#13121a",
-    panelAlt: "#1a1a1f",
-    border: "#2a2a2f",
-    borderSoft: "#3a3a42",
-    text: "#f5f5f5",
-    textMuted: "#bbb",
-    textDim: "#888",
-    textFaint: "#666",
-    red: "#ED1C24",
-    redHover: "#ff2b33",
+    bg: "#0B0D1A",
+    panel: "#161929",
+    panelAlt: "#1F2338",
+    border: "#2A2E48",
+    borderSoft: "#383D5C",
+    text: "#E8EAF2",
+    textMuted: "#A4A8C0",
+    textDim: "#5E6383",
+    textFaint: "#5E6383",
+    red: "#DDB85C",
+    redHover: "#F0CD7A",
     green: "#22c55e",
     yellow: "#eab308",
-    redSoft: "#ef4444",
-    inputBg: "#0B0A0F",
-    inputBorder: "#2a2a2f",
-    sidebarBg: "#13121a",
-    headerBg: "rgba(11,10,15,0.95)",
+    redSoft: "#C46868",
+    inputBg: "#0B0D1A",
+    inputBorder: "#2A2E48",
+    sidebarBg: "#161929",
+    headerBg: "rgba(11,13,26,0.95)",
     shadow: "rgba(0,0,0,0.5)",
     isDark: true
   },
@@ -204,15 +204,15 @@ const THEMES = {
     panelAlt: "#fafafa",
     border: "#d1d1d6",
     borderSoft: "#e5e5ea",
-    text: "#1a1a1f",
-    textMuted: "#555",
-    textDim: "#777",
-    textFaint: "#999",
-    red: "#D91E28",
-    redHover: "#c01820",
+    text: "#1F2338",
+    textMuted: "#5E6383",
+    textDim: "#5E6383",
+    textFaint: "#A4A8C0",
+    red: "#B89545",
+    redHover: "#B89545",
     green: "#16a34a",
     yellow: "#ca8a04",
-    redSoft: "#dc2626",
+    redSoft: "#C46868",
     inputBg: "#ffffff",
     inputBorder: "#d1d1d6",
     sidebarBg: "#ffffff",
@@ -301,8 +301,8 @@ const contractStatus = (contratoAte) => {
   if (isNaN(d)) return null;
   const now = new Date();
   const days = Math.round((d - now) / (1000 * 60 * 60 * 24));
-  if (days < 0) return { label: "Expirado", color: "#ef4444" };
-  if (days < 180) return { label: days + "d", color: "#ef4444" };
+  if (days < 0) return { label: "Expirado", color: "#C46868" };
+  if (days < 180) return { label: days + "d", color: "#C46868" };
   if (days < 365) return { label: Math.round(days/30) + "m", color: "#eab308" };
   return { label: (days/365).toFixed(1) + "a", color: "#22c55e" };
 };
@@ -846,7 +846,7 @@ export default function Builder({ meshParams = null }) {
         return acc;
       }, {})
     : null;
-  const seniorDecColor = r.decisao === "CONTRATAR JÁ" ? "#16a34a" : r.decisao === "CONTRATAR" ? "#22c55e" : r.decisao === "MONITORIZAR" ? "#eab308" : r.decisao === "REJEITAR" ? "#dc2626" : null;
+  const seniorDecColor = r.decisao === "CONTRATAR JÁ" ? "#16a34a" : r.decisao === "CONTRATAR" ? "#22c55e" : r.decisao === "MONITORIZAR" ? "#eab308" : r.decisao === "REJEITAR" ? "#C46868" : null;
   const age = calcAge(r.dataNasc);
   const contract = contractStatus(r.contratoAte);
 
@@ -977,7 +977,7 @@ export default function Builder({ meshParams = null }) {
   const cellColor = (val, max, min, hasDiff) => {
     if (!hasDiff || val === 0) return "#fff";
     if (val === max) return "#22c55e";
-    if (val === min) return "#ef4444";
+    if (val === min) return "#C46868";
     return "#fff";
   };
 
@@ -990,7 +990,7 @@ export default function Builder({ meshParams = null }) {
         /* Dark date/time picker fix */
         input[type="date"], input[type="time"], input[type="datetime-local"] {
           color-scheme: dark;
-          color: #f5f5f5;
+          color: #E8EAF2;
         }
         input[type="date"]::-webkit-calendar-picker-indicator,
         input[type="time"]::-webkit-calendar-picker-indicator {
@@ -1004,10 +1004,10 @@ export default function Builder({ meshParams = null }) {
         input[type="date"]::-webkit-datetime-edit-month-field,
         input[type="date"]::-webkit-datetime-edit-day-field,
         input[type="date"]::-webkit-datetime-edit-year-field {
-          color: #f5f5f5 !important;
+          color: #E8EAF2 !important;
         }
         /* Placeholder contrast */
-        input::placeholder, textarea::placeholder { color: #888 !important; }
+        input::placeholder, textarea::placeholder { color: #5E6383 !important; }
         /* Select arrow for dark mode */
         select { color-scheme: dark; }
       `}</style>
@@ -1040,7 +1040,7 @@ export default function Builder({ meshParams = null }) {
           style={{
             display: "flex", alignItems: "center", justifyContent: "space-between",
             padding: "12px 16px", borderBottom: `1px solid ${S.border}`,
-            background: "rgba(237,28,36,0.06)", color: "#fff", textDecoration: "none",
+            background: "rgba(221,184,92,0.06)", color: "#fff", textDecoration: "none",
             fontSize: 12, fontWeight: 600, letterSpacing: 0.5
           }}
           title="Trabalho do aluno: criação da rede de scouting"
@@ -1058,7 +1058,7 @@ export default function Builder({ meshParams = null }) {
             style={{
               display: "flex", alignItems: "center", justifyContent: "space-between",
               padding: "12px 16px", borderBottom: `1px solid ${S.border}`,
-              background: "rgba(237,28,36,0.12)", color: "#fff", textDecoration: "none",
+              background: "rgba(221,184,92,0.12)", color: "#fff", textDecoration: "none",
               fontSize: 12, fontWeight: 600, letterSpacing: 0.5
             }}
           >
@@ -1082,7 +1082,7 @@ export default function Builder({ meshParams = null }) {
               <div style={{ fontSize: 11, color: "#eab308", textAlign: "center", padding: "4px 0", fontWeight: 600 }}>
                 MODO COMPARAÇÃO
               </div>
-              <div style={{ fontSize: 10, color: "#999", textAlign: "center" }}>
+              <div style={{ fontSize: 10, color: "#A4A8C0", textAlign: "center" }}>
                 Seleciona 2 ou 3 jogadores ({compareIds.length}/3)
               </div>
               <button
@@ -1090,13 +1090,13 @@ export default function Builder({ meshParams = null }) {
                 disabled={compareIds.length < 2}
                 style={{
                   width: "100%", padding: "9px",
-                  background: compareIds.length >= 2 ? S.red : "#2a2a2f",
-                  color: compareIds.length >= 2 ? "#fff" : "#666",
+                  background: compareIds.length >= 2 ? S.red : "#2A2E48",
+                  color: compareIds.length >= 2 ? "#fff" : "#5E6383",
                   border: "none", borderRadius: 6, fontSize: 11, fontWeight: 700, letterSpacing: 0.5,
                   cursor: compareIds.length >= 2 ? "pointer" : "not-allowed"
                 }}
               >COMPARAR ({compareIds.length})</button>
-              <button onClick={exitCompareMode} style={{ width: "100%", padding: "7px", background: "transparent", color: "#999", border: `1px solid ${S.border}`, borderRadius: 6, fontSize: 10, cursor: "pointer" }}>CANCELAR</button>
+              <button onClick={exitCompareMode} style={{ width: "100%", padding: "7px", background: "transparent", color: "#A4A8C0", border: `1px solid ${S.border}`, borderRadius: 6, fontSize: 10, cursor: "pointer" }}>CANCELAR</button>
             </>
           )}
         </div>
@@ -1123,7 +1123,7 @@ export default function Builder({ meshParams = null }) {
 
         <div style={{ flex: 1, overflowY: "auto", padding: 8 }}>
           {filteredReports.length === 0 && (
-            <div style={{ padding: 20, textAlign: "center", color: "#666", fontSize: 12 }}>Sem relatórios</div>
+            <div style={{ padding: 20, textAlign: "center", color: "#5E6383", fontSize: 12 }}>Sem relatórios</div>
           )}
           {filteredReports.map(rep => {
             const isActive = !compareMode && rep.id === store.activeId;
@@ -1132,27 +1132,27 @@ export default function Builder({ meshParams = null }) {
             return (
               <div key={rep.id} className="card-hover" onClick={() => selectReport(rep.id)} style={{
                 padding: 10, marginBottom: 6, borderRadius: 8, cursor: "pointer",
-                background: isActive || isSelected ? "#1f1d28" : "transparent",
+                background: isActive || isSelected ? "#1F2338" : "transparent",
                 border: `1px solid ${isActive || isSelected ? S.red : "transparent"}`,
                 display: "flex", gap: 10, position: "relative"
               }}>
                 {compareMode && (
                   <div style={{
                     position: "absolute", top: 8, left: 8, width: 18, height: 18, borderRadius: 4,
-                    border: `2px solid ${isSelected ? S.red : "#555"}`,
+                    border: `2px solid ${isSelected ? S.red : "#5E6383"}`,
                     background: isSelected ? S.red : "transparent",
                     display: "flex", alignItems: "center", justifyContent: "center",
                     color: "#fff", fontSize: 12, fontWeight: 700, zIndex: 2
                   }}>{isSelected && "✓"}</div>
                 )}
-                <div style={{ width: 40, height: 40, borderRadius: 6, background: "#2a2a2f", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", marginLeft: compareMode ? 24 : 0 }}>
-                  {rep.foto ? <img src={rep.foto} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <span style={{ fontSize: 12, color: "#666", fontWeight: 700 }}>{initials(rep.nome)}</span>}
+                <div style={{ width: 40, height: 40, borderRadius: 6, background: "#2A2E48", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", marginLeft: compareMode ? 24 : 0 }}>
+                  {rep.foto ? <img src={rep.foto} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <span style={{ fontSize: 12, color: "#5E6383", fontWeight: 700 }}>{initials(rep.nome)}</span>}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ fontSize: 12, fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", paddingRight: 40 }}>{rep.nome || "Sem nome"}</div>
-                  <div style={{ fontSize: 10, color: "#888", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{rep.pos || "—"} · {rep.clube || "—"}</div>
+                  <div style={{ fontSize: 10, color: "#5E6383", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{rep.pos || "—"} · {rep.clube || "—"}</div>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 3 }}>
-                    <div style={{ fontSize: 9, color: "#666" }}>{rep.dataRel || "—"}</div>
+                    <div style={{ fontSize: 9, color: "#5E6383" }}>{rep.dataRel || "—"}</div>
                     {Number(rep.nota) > 0 && <div style={{ fontSize: 11, fontWeight: 700, color: S.red }}>{rep.nota}</div>}
                   </div>
                 </div>
@@ -1165,7 +1165,7 @@ export default function Builder({ meshParams = null }) {
                     <button onClick={(e) => { e.stopPropagation(); togglePin(rep.id); }} style={{
                       position: "absolute", top: 6, right: 50, opacity: 0, transition: "opacity 0.15s",
                       background: rep.pinned ? "rgba(234,179,8,0.15)" : "rgba(100,100,120,0.2)", border: "none",
-                      color: rep.pinned ? "#eab308" : "#666",
+                      color: rep.pinned ? "#eab308" : "#5E6383",
                       width: 20, height: 20, borderRadius: 4, cursor: "pointer", fontSize: 11, lineHeight: 1
                     }} className="dup-btn" title={rep.pinned ? "Desafixar" : "Fixar no topo"}>★</button>
                     <button className="dup-btn" onClick={(e) => { e.stopPropagation(); duplicateReport(rep.id); }} style={{
@@ -1175,7 +1175,7 @@ export default function Builder({ meshParams = null }) {
                     }} title="Duplicar relatório">⧉</button>
                     <button className="del-btn" onClick={(e) => { e.stopPropagation(); setConfirmDelete(rep.id); }} style={{
                       position: "absolute", top: 6, right: 6, opacity: 0, transition: "opacity 0.15s",
-                      background: "rgba(220,38,38,0.15)", border: "none", color: "#dc2626",
+                      background: "rgba(220,38,38,0.15)", border: "none", color: "#C46868",
                       width: 20, height: 20, borderRadius: 4, cursor: "pointer", fontSize: 12, lineHeight: 1
                     }}>×</button>
                   </>
@@ -1188,10 +1188,10 @@ export default function Builder({ meshParams = null }) {
         <div style={{ padding: 10, borderTop: `1px solid ${S.border}`, fontSize: 10, color: S.textFaint }}>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
             <span>{totalReports} {totalReports === 1 ? "relatório" : "relatórios"}</span>
-            <span style={{ color: usage > 95 ? "#dc2626" : usage > 80 ? "#eab308" : S.textFaint }}>{usage.toFixed(0)}% usado</span>
+            <span style={{ color: usage > 95 ? "#C46868" : usage > 80 ? "#eab308" : S.textFaint }}>{usage.toFixed(0)}% usado</span>
           </div>
           <div style={{ height: 3, background: S.border, borderRadius: 2, overflow: "hidden" }}>
-            <div style={{ height: "100%", width: `${usage}%`, background: usage > 95 ? "#dc2626" : usage > 80 ? "#eab308" : S.red, transition: "width 0.3s" }} />
+            <div style={{ height: "100%", width: `${usage}%`, background: usage > 95 ? "#C46868" : usage > 80 ? "#eab308" : S.red, transition: "width 0.3s" }} />
           </div>
           {usage > 80 && <div style={{ marginTop: 4, color: "#eab308" }}>Considera exportar backup</div>}
           {installPrompt && (
@@ -1199,7 +1199,7 @@ export default function Builder({ meshParams = null }) {
               installPrompt.prompt();
               const { outcome } = await installPrompt.userChoice;
               if (outcome === "accepted") setInstallPrompt(null);
-            }} style={{ marginTop: 8, width: "100%", padding: "7px 10px", background: "rgba(237,28,36,0.1)", border: "1px solid rgba(237,28,36,0.3)", color: S.red, borderRadius: 6, fontSize: 11, fontWeight: 600, cursor: "pointer", letterSpacing: 0.5 }}>
+            }} style={{ marginTop: 8, width: "100%", padding: "7px 10px", background: "rgba(221,184,92,0.1)", border: "1px solid rgba(221,184,92,0.3)", color: S.red, borderRadius: 6, fontSize: 11, fontWeight: 600, cursor: "pointer", letterSpacing: 0.5 }}>
               ↓ Instalar aplicação
             </button>
           )}
@@ -1235,9 +1235,9 @@ export default function Builder({ meshParams = null }) {
               <div style={{ padding: "18px 20px 12px" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
                   <h3 style={{ margin: 0, fontSize: 16 }}>Procurar jogador</h3>
-                  <button onClick={() => setPlayerDbOpen(false)} style={{ background: "none", border: "none", color: "#999", fontSize: 20, cursor: "pointer", lineHeight: 1 }}>×</button>
+                  <button onClick={() => setPlayerDbOpen(false)} style={{ background: "none", border: "none", color: "#A4A8C0", fontSize: 20, cursor: "pointer", lineHeight: 1 }}>×</button>
                 </div>
-                <p style={{ fontSize: 11, color: "#888", margin: "0 0 12px" }}>
+                <p style={{ fontSize: 11, color: "#5E6383", margin: "0 0 12px" }}>
                   Base pré-carregada: {all.length || "—"} jogadores. Escolhe um para criar um relatório com os dados já preenchidos.
                 </p>
                 <input
@@ -1249,10 +1249,10 @@ export default function Builder({ meshParams = null }) {
                 />
               </div>
               <div style={{ flex: 1, overflowY: "auto", padding: "0 12px 12px" }}>
-                {playerDbLoading && <div style={{ padding: 24, textAlign: "center", color: "#888", fontSize: 12 }}>A carregar base de dados…</div>}
-                {playerDbError && <div style={{ padding: 24, textAlign: "center", color: "#ef4444", fontSize: 12 }}>Não foi possível carregar a base de dados.</div>}
+                {playerDbLoading && <div style={{ padding: 24, textAlign: "center", color: "#5E6383", fontSize: 12 }}>A carregar base de dados…</div>}
+                {playerDbError && <div style={{ padding: 24, textAlign: "center", color: "#C46868", fontSize: 12 }}>Não foi possível carregar a base de dados.</div>}
                 {!playerDbLoading && !playerDbError && results.length === 0 && (
-                  <div style={{ padding: 24, textAlign: "center", color: "#666", fontSize: 12 }}>Sem resultados.</div>
+                  <div style={{ padding: 24, textAlign: "center", color: "#5E6383", fontSize: 12 }}>Sem resultados.</div>
                 )}
                 {results.map(p => (
                   <button
@@ -1262,13 +1262,13 @@ export default function Builder({ meshParams = null }) {
                   >
                     <span style={{ minWidth: 0 }}>
                       <span style={{ display: "block", fontSize: 13, fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.nome}</span>
-                      <span style={{ display: "block", fontSize: 10, color: "#888", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.posLabel} · {p.clube} · {p.idade != null ? `${p.idade}a` : "—"}</span>
+                      <span style={{ display: "block", fontSize: 10, color: "#5E6383", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.posLabel} · {p.clube} · {p.idade != null ? `${p.idade}a` : "—"}</span>
                     </span>
                     <span style={{ fontSize: 11, color: S.red, fontWeight: 700, whiteSpace: "nowrap" }}>{p.valorTexto || ""}</span>
                   </button>
                 ))}
                 {!playerDbLoading && !playerDbError && matches.length > results.length && (
-                  <div style={{ padding: "10px 4px", textAlign: "center", color: "#666", fontSize: 11 }}>
+                  <div style={{ padding: "10px 4px", textAlign: "center", color: "#5E6383", fontSize: 11 }}>
                     A mostrar 60 de {matches.length}. Refina a pesquisa.
                   </div>
                 )}
@@ -1283,10 +1283,10 @@ export default function Builder({ meshParams = null }) {
         <div className="no-print" style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.7)", zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center" }}>
           <div style={{ background: S.panel, border: `1px solid ${S.border}`, borderRadius: 10, padding: 24, maxWidth: 380 }}>
             <h3 style={{ margin: "0 0 10px", fontSize: 16 }}>Apagar relatório?</h3>
-            <p style={{ fontSize: 13, color: "#999", margin: "0 0 20px" }}>Vais apagar o relatório de <strong style={{color:"#fff"}}>{store.reports[confirmDelete]?.nome || "Sem nome"}</strong>. Esta ação não pode ser desfeita.</p>
+            <p style={{ fontSize: 13, color: "#A4A8C0", margin: "0 0 20px" }}>Vais apagar o relatório de <strong style={{color:"#fff"}}>{store.reports[confirmDelete]?.nome || "Sem nome"}</strong>. Esta ação não pode ser desfeita.</p>
             <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
               <button onClick={() => setConfirmDelete(null)} style={{ padding: "8px 16px", background: "transparent", color: "#fff", border: `1px solid ${S.border}`, borderRadius: 6, fontSize: 12, cursor: "pointer" }}>Cancelar</button>
-              <button onClick={() => deleteReport(confirmDelete)} style={{ padding: "8px 16px", background: "#dc2626", color: "#fff", border: "none", borderRadius: 6, fontSize: 12, fontWeight: 700, cursor: "pointer" }}>Apagar</button>
+              <button onClick={() => deleteReport(confirmDelete)} style={{ padding: "8px 16px", background: "#C46868", color: "#fff", border: "none", borderRadius: 6, fontSize: 12, fontWeight: 700, cursor: "pointer" }}>Apagar</button>
             </div>
           </div>
         </div>
@@ -1315,18 +1315,18 @@ export default function Builder({ meshParams = null }) {
 
         <header className="no-print" style={{ borderBottom: `1px solid ${S.border}`, padding: "14px 20px", position: "sticky", top: 0, background: S.headerBg, backdropFilter: "blur(8px)", zIndex: 10 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 10 }}>
-            <div style={{ fontSize: 13, color: "#999", display: "flex", alignItems: "center", gap: 10 }}>
+            <div style={{ fontSize: 13, color: "#A4A8C0", display: "flex", alignItems: "center", gap: 10 }}>
               {showCompareView
                 ? <>Comparação de <strong style={{color:"#fff"}}>{compareReports.length} jogadores</strong></>
                 : <>A editar: <strong style={{color:"#fff"}}>{r.nome || "Sem nome"}</strong></>
               }
               {sbUser?.user_metadata?.course_code && (
-                <span style={{ fontSize: 10, color: S.red, fontWeight: 700, background: "rgba(237,28,36,0.1)", border: "1px solid rgba(237,28,36,0.3)", borderRadius: 4, padding: "2px 6px", letterSpacing: 0.5 }}>
+                <span style={{ fontSize: 10, color: S.red, fontWeight: 700, background: "rgba(221,184,92,0.1)", border: "1px solid rgba(221,184,92,0.3)", borderRadius: 4, padding: "2px 6px", letterSpacing: 0.5 }}>
                   {sbUser.user_metadata.course_code}
                 </span>
               )}
-              {sbUser && syncStatus === "syncing" && <span style={{ fontSize: 10, color: "#666", letterSpacing: 0.5 }}>↑ a sincronizar…</span>}
-              {sbUser && syncStatus === "error"   && <span style={{ fontSize: 10, color: "#ef4444", letterSpacing: 0.5 }}>⚠ erro sync</span>}
+              {sbUser && syncStatus === "syncing" && <span style={{ fontSize: 10, color: "#5E6383", letterSpacing: 0.5 }}>↑ a sincronizar…</span>}
+              {sbUser && syncStatus === "error"   && <span style={{ fontSize: 10, color: "#C46868", letterSpacing: 0.5 }}>⚠ erro sync</span>}
               {sbUser && syncStatus === "synced"  && <span style={{ fontSize: 10, color: "#22c55e", letterSpacing: 0.5 }}>✓ guardado {relativeTime(lastSyncedAt)}</span>}
             </div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
@@ -1358,7 +1358,7 @@ export default function Builder({ meshParams = null }) {
               )}
 
               {!showCompareView && (
-                <button onClick={() => window.print()} className="no-print" style={{ padding: "8px 14px", background: "#1a1a1f", color: "#aaa", border: `1px solid ${S.border}`, borderRadius: 6, fontSize: 11, fontWeight: 600, cursor: "pointer" }}>⎙ IMPRIMIR</button>
+                <button onClick={() => window.print()} className="no-print" style={{ padding: "8px 14px", background: "#1F2338", color: "#A4A8C0", border: `1px solid ${S.border}`, borderRadius: 6, fontSize: 11, fontWeight: 600, cursor: "pointer" }}>⎙ IMPRIMIR</button>
               )}
               {/* GUARDAR */}
               {!showCompareView && (
@@ -1367,7 +1367,7 @@ export default function Builder({ meshParams = null }) {
                   title={!idValid ? "Preenche Nome e Clube para guardar" : "Guardar relatório"}
                   style={{
                     padding: "8px 14px",
-                    background: idValid ? "#16a34a" : "#1a1a1f",
+                    background: idValid ? "#16a34a" : "#1F2338",
                     color: idValid ? "#fff" : S.textDim,
                     border: idValid ? "none" : `1px solid ${S.border}`,
                     borderRadius: 6, fontSize: 11, fontWeight: 600, cursor: "pointer"
@@ -1377,7 +1377,7 @@ export default function Builder({ meshParams = null }) {
 
               {/* v4: DATA menu */}
               <div style={{ position: "relative" }} onClick={e => e.stopPropagation()}>
-                <button onClick={() => setDataMenuOpen(o => !o)} style={{ padding: "8px 14px", background: "#1a1a1f", color: "#fff", border: `1px solid ${S.border}`, borderRadius: 6, fontSize: 11, fontWeight: 600, cursor: "pointer" }}>DADOS ▾</button>
+                <button onClick={() => setDataMenuOpen(o => !o)} style={{ padding: "8px 14px", background: "#1F2338", color: "#fff", border: `1px solid ${S.border}`, borderRadius: 6, fontSize: 11, fontWeight: 600, cursor: "pointer" }}>DADOS ▾</button>
                 {dataMenuOpen && (
                   <div style={{ position: "absolute", top: "calc(100% + 4px)", right: 0, background: S.panel, border: `1px solid ${S.border}`, borderRadius: 8, minWidth: 260, boxShadow: "0 10px 30px rgba(0,0,0,0.5)", overflow: "hidden", zIndex: 20 }}>
                     <button onClick={() => { setDataMenuOpen(false); exportReportsToCSV(filteredReports); }} style={menuBtn}>
@@ -1404,12 +1404,12 @@ export default function Builder({ meshParams = null }) {
               <div style={headerCell}>JOGADOR</div>
               {compareReports.map(rep => (
                 <div key={rep.id} style={{ ...headerCell, textAlign: "center" }}>
-                  <div style={{ width: 60, height: 60, borderRadius: 8, background: "#2a2a2f", margin: "0 auto 8px", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    {rep.foto ? <img src={rep.foto} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <span style={{ color: "#666", fontSize: 14, fontWeight: 700 }}>{initials(rep.nome)}</span>}
+                  <div style={{ width: 60, height: 60, borderRadius: 8, background: "#2A2E48", margin: "0 auto 8px", overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    {rep.foto ? <img src={rep.foto} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <span style={{ color: "#5E6383", fontSize: 14, fontWeight: 700 }}>{initials(rep.nome)}</span>}
                   </div>
                   <div style={{ fontSize: 14, fontWeight: 700, color: "#fff" }}>{rep.nome || "Sem nome"}</div>
-                  <div style={{ fontSize: 11, color: "#888", marginTop: 2 }}>{rep.pos} · {rep.clube || "—"}</div>
-                  <div style={{ fontSize: 10, color: "#666", marginTop: 2 }}>{rep.mode === "senior" ? "Sénior" : "Formação"}</div>
+                  <div style={{ fontSize: 11, color: "#5E6383", marginTop: 2 }}>{rep.pos} · {rep.clube || "—"}</div>
+                  <div style={{ fontSize: 10, color: "#5E6383", marginTop: 2 }}>{rep.mode === "senior" ? "Sénior" : "Formação"}</div>
                 </div>
               ))}
             </div>
@@ -1479,7 +1479,7 @@ export default function Builder({ meshParams = null }) {
                 {compareReports.map((rep, i) => (
                   <div key={i} style={{ ...compareValueCell, flexDirection: "column", alignItems: "flex-start", textAlign: "left", padding: "12px 14px", color: "#22c55e", fontSize: 12 }}>
                     {(rep.fortes || []).filter(Boolean).map((f, j) => <div key={j} style={{ marginBottom: 4 }}>▸ {f}</div>)}
-                    {!(rep.fortes || []).filter(Boolean).length && <span style={{ color: "#666" }}>—</span>}
+                    {!(rep.fortes || []).filter(Boolean).length && <span style={{ color: "#5E6383" }}>—</span>}
                   </div>
                 ))}
               </div>
@@ -1489,15 +1489,15 @@ export default function Builder({ meshParams = null }) {
               <div style={{ ...compareRowStyle, alignItems: "start" }}>
                 <div style={compareLabelCell}>Top 3</div>
                 {compareReports.map((rep, i) => (
-                  <div key={i} style={{ ...compareValueCell, flexDirection: "column", alignItems: "flex-start", textAlign: "left", padding: "12px 14px", color: "#ef4444", fontSize: 12 }}>
+                  <div key={i} style={{ ...compareValueCell, flexDirection: "column", alignItems: "flex-start", textAlign: "left", padding: "12px 14px", color: "#C46868", fontSize: 12 }}>
                     {(rep.lacunas || []).filter(Boolean).map((f, j) => <div key={j} style={{ marginBottom: 4 }}>▸ {f}</div>)}
-                    {!(rep.lacunas || []).filter(Boolean).length && <span style={{ color: "#666" }}>—</span>}
+                    {!(rep.lacunas || []).filter(Boolean).length && <span style={{ color: "#5E6383" }}>—</span>}
                   </div>
                 ))}
               </div>
             </CompareSection>
 
-            <div style={{ fontSize: 11, color: "#666", textAlign: "center", marginTop: 24, paddingBottom: 40 }}>
+            <div style={{ fontSize: 11, color: "#5E6383", textAlign: "center", marginTop: 24, paddingBottom: 40 }}>
               Verde = valor mais alto · Vermelho = valor mais baixo · Linhas sem diferença não são destacadas
             </div>
           </main>
@@ -1513,12 +1513,12 @@ export default function Builder({ meshParams = null }) {
               <button key={m.id} onClick={() => switchMode(m.id)} style={{
                 padding: "10px 18px", borderRadius: 8, cursor: "pointer", transition: "all 0.15s",
                 border: `2px solid ${r.mode === m.id ? S.red : S.border}`,
-                background: r.mode === m.id ? "rgba(237,28,36,0.12)" : "transparent",
-                color: r.mode === m.id ? "#fff" : "#666",
+                background: r.mode === m.id ? "rgba(221,184,92,0.12)" : "transparent",
+                color: r.mode === m.id ? "#fff" : "#5E6383",
                 textAlign: "left"
               }}>
                 <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: 1 }}>{m.label}</div>
-                <div style={{ fontSize: 10, color: r.mode === m.id ? "#bbb" : "#555", marginTop: 2 }}>{m.desc}</div>
+                <div style={{ fontSize: 10, color: r.mode === m.id ? "#A4A8C0" : "#5E6383", marginTop: 2 }}>{m.desc}</div>
               </button>
             ))}
           </div>
@@ -1527,21 +1527,21 @@ export default function Builder({ meshParams = null }) {
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14, flexWrap: "wrap", gap: 8 }}>
               <h2 style={{...h2, marginBottom: 0}}>Identificação</h2>
               {showValidation && !idValid && (
-                <div style={{ fontSize: 11, color: "#ef4444", fontWeight: 600, background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.3)", borderRadius: 6, padding: "5px 10px" }}>
+                <div style={{ fontSize: 11, color: "#C46868", fontWeight: 600, background: "rgba(196,104,104,0.1)", border: "1px solid rgba(196,104,104,0.3)", borderRadius: 6, padding: "5px 10px" }}>
                   Nome e Clube são obrigatórios
                 </div>
               )}
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "160px 1fr", gap: 20, alignItems: "start" }}>
               <div>
-                <div style={{ width: 150, height: 150, borderRadius: 8, background: "#1a1a1f", border: `1px dashed ${S.border}`, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  {r.foto ? <img src={r.foto} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <span style={{ color: "#666", fontSize: 11 }}>Sem foto</span>}
+                <div style={{ width: 150, height: 150, borderRadius: 8, background: "#1F2338", border: `1px dashed ${S.border}`, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  {r.foto ? <img src={r.foto} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <span style={{ color: "#5E6383", fontSize: 11 }}>Sem foto</span>}
                 </div>
                 <label className="no-print" style={{ display: "block", marginTop: 8, cursor: "pointer" }}>
                   <input type="file" accept="image/*" onChange={onPhoto} style={{ display: "none" }} />
                   <span style={{ fontSize: 11, color: S.red, textDecoration: "underline" }}>{r.foto ? "Substituir" : "Carregar foto"}</span>
                 </label>
-                {r.foto && <button className="no-print" onClick={() => u("foto", "")} style={{ marginLeft: 10, fontSize: 11, background: "none", border: "none", color: "#999", cursor: "pointer" }}>Remover</button>}
+                {r.foto && <button className="no-print" onClick={() => u("foto", "")} style={{ marginLeft: 10, fontSize: 11, background: "none", border: "none", color: "#A4A8C0", cursor: "pointer" }}>Remover</button>}
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 10 }}>
                 <div><label style={lbl}>Nome</label><input style={inp} value={r.nome} onChange={e=>u("nome",e.target.value)} /></div>
@@ -1549,11 +1549,11 @@ export default function Builder({ meshParams = null }) {
                   <label style={lbl}>Data nascimento{age != null && <span style={{ marginLeft: 6, color: S.red, fontWeight: 700 }}>{age} anos</span>}</label>
                   <input style={inp} type="date" value={r.dataNasc} onChange={e=>u("dataNasc",e.target.value)} />
                 </div>
-                <div><label style={{...lbl, color: showValidation && !r.nome?.trim() ? "#ef4444" : undefined}}>Nome *</label><input style={{...inp, ...(showValidation && !r.nome?.trim() ? { borderColor: "#ef4444", boxShadow: "0 0 0 1px #ef4444" } : {})}} value={r.nome} onChange={e=>u("nome",e.target.value)} /></div>
+                <div><label style={{...lbl, color: showValidation && !r.nome?.trim() ? "#C46868" : undefined}}>Nome *</label><input style={{...inp, ...(showValidation && !r.nome?.trim() ? { borderColor: "#C46868", boxShadow: "0 0 0 1px #C46868" } : {})}} value={r.nome} onChange={e=>u("nome",e.target.value)} /></div>
                 <div><label style={lbl}>Data nascimento</label><input style={inp} type="date" value={r.dataNasc} onChange={e=>u("dataNasc",e.target.value)} /></div>
                 <div><label style={lbl}>Naturalidade</label><input style={inp} value={r.naturalidade} onChange={e=>u("naturalidade",e.target.value)} /></div>
                 <div><label style={lbl}>Nacionalidade</label><input style={inp} value={r.nacionalidade} onChange={e=>u("nacionalidade",e.target.value)} /></div>
-                <div><label style={{...lbl, color: showValidation && !r.clube?.trim() ? "#ef4444" : undefined}}>Clube atual *</label><input style={{...inp, ...(showValidation && !r.clube?.trim() ? { borderColor: "#ef4444", boxShadow: "0 0 0 1px #ef4444" } : {})}} value={r.clube} onChange={e=>u("clube",e.target.value)} /></div>
+                <div><label style={{...lbl, color: showValidation && !r.clube?.trim() ? "#C46868" : undefined}}>Clube atual *</label><input style={{...inp, ...(showValidation && !r.clube?.trim() ? { borderColor: "#C46868", boxShadow: "0 0 0 1px #C46868" } : {})}} value={r.clube} onChange={e=>u("clube",e.target.value)} /></div>
                 <div><label style={lbl}>Contrato até</label><input style={inp} type="date" value={r.contratoAte} onChange={e=>u("contratoAte",e.target.value)} /></div>
                 <div><label style={lbl}>Pé preferencial</label>
                   <select style={inp} value={r.pe} onChange={e=>u("pe",e.target.value)}>
@@ -1573,26 +1573,26 @@ export default function Builder({ meshParams = null }) {
           <div style={sec}>
             <h2 style={h2}>Estatísticas da Época</h2>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
-              <div style={{ background: "#13121a", border: `1px solid ${S.border}`, borderRadius: 10, padding: "16px 18px", textAlign: "center" }}>
-                <div style={{ fontSize: 10, textTransform: "uppercase", color: "#888", letterSpacing: 1.5, marginBottom: 6 }}>Jogos</div>
+              <div style={{ background: "#161929", border: `1px solid ${S.border}`, borderRadius: 10, padding: "16px 18px", textAlign: "center" }}>
+                <div style={{ fontSize: 10, textTransform: "uppercase", color: "#5E6383", letterSpacing: 1.5, marginBottom: 6 }}>Jogos</div>
                 <input type="number" min="0" value={r.jogos} onChange={e => u("jogos", e.target.value)}
                   style={{ width: "100%", background: "transparent", border: "none", textAlign: "center", color: "#fff", fontSize: 36, fontWeight: 900, padding: 0, fontFamily: "inherit", outline: "none" }}
                   placeholder="—" />
-                <div style={{ fontSize: 10, color: "#666", marginTop: 4 }}>época atual</div>
+                <div style={{ fontSize: 10, color: "#5E6383", marginTop: 4 }}>época atual</div>
               </div>
-              <div style={{ background: "#13121a", border: `1px solid ${S.border}`, borderRadius: 10, padding: "16px 18px", textAlign: "center" }}>
-                <div style={{ fontSize: 10, textTransform: "uppercase", color: "#888", letterSpacing: 1.5, marginBottom: 6 }}>Golos</div>
+              <div style={{ background: "#161929", border: `1px solid ${S.border}`, borderRadius: 10, padding: "16px 18px", textAlign: "center" }}>
+                <div style={{ fontSize: 10, textTransform: "uppercase", color: "#5E6383", letterSpacing: 1.5, marginBottom: 6 }}>Golos</div>
                 <input type="number" min="0" value={r.golos} onChange={e => u("golos", e.target.value)}
                   style={{ width: "100%", background: "transparent", border: "none", textAlign: "center", color: S.red, fontSize: 36, fontWeight: 900, padding: 0, fontFamily: "inherit", outline: "none" }}
                   placeholder="—" />
-                <div style={{ fontSize: 10, color: "#666", marginTop: 4 }}>época atual</div>
+                <div style={{ fontSize: 10, color: "#5E6383", marginTop: 4 }}>época atual</div>
               </div>
-              <div style={{ background: "#13121a", border: `1px solid ${S.border}`, borderRadius: 10, padding: "16px 18px", textAlign: "center" }}>
-                <div style={{ fontSize: 10, textTransform: "uppercase", color: "#888", letterSpacing: 1.5, marginBottom: 6 }}>Assistências</div>
+              <div style={{ background: "#161929", border: `1px solid ${S.border}`, borderRadius: 10, padding: "16px 18px", textAlign: "center" }}>
+                <div style={{ fontSize: 10, textTransform: "uppercase", color: "#5E6383", letterSpacing: 1.5, marginBottom: 6 }}>Assistências</div>
                 <input type="number" min="0" value={r.assists} onChange={e => u("assists", e.target.value)}
                   style={{ width: "100%", background: "transparent", border: "none", textAlign: "center", color: "#22c55e", fontSize: 36, fontWeight: 900, padding: 0, fontFamily: "inherit", outline: "none" }}
                   placeholder="—" />
-                <div style={{ fontSize: 10, color: "#666", marginTop: 4 }}>época atual</div>
+                <div style={{ fontSize: 10, color: "#5E6383", marginTop: 4 }}>época atual</div>
               </div>
             </div>
           </div>
@@ -1622,23 +1622,23 @@ export default function Builder({ meshParams = null }) {
                 />
               )}
               <div>
-                <div style={{ marginBottom: 16, padding: 14, background: "#13121a", border: `1px solid ${S.border}`, borderRadius: 8 }}>
-                  <div style={{ fontSize: 10, textTransform: "uppercase", color: "#888", letterSpacing: 1, marginBottom: 6 }}>Posição Principal</div>
+                <div style={{ marginBottom: 16, padding: 14, background: "#161929", border: `1px solid ${S.border}`, borderRadius: 8 }}>
+                  <div style={{ fontSize: 10, textTransform: "uppercase", color: "#5E6383", letterSpacing: 1, marginBottom: 6 }}>Posição Principal</div>
                   <div style={{ fontSize: 20, fontWeight: 800, color: S.red }}>{r.pos}</div>
-                  <div style={{ fontSize: 12, color: "#bbb", marginTop: 2 }}>{posMeta?.label || "—"}</div>
+                  <div style={{ fontSize: 12, color: "#A4A8C0", marginTop: 2 }}>{posMeta?.label || "—"}</div>
                 </div>
-                <div style={{ padding: 14, background: "#13121a", border: `1px solid ${S.border}`, borderRadius: 8 }}>
-                  <div style={{ fontSize: 10, textTransform: "uppercase", color: "#888", letterSpacing: 1, marginBottom: 6 }}>Posição Secundária</div>
+                <div style={{ padding: 14, background: "#161929", border: `1px solid ${S.border}`, borderRadius: 8 }}>
+                  <div style={{ fontSize: 10, textTransform: "uppercase", color: "#5E6383", letterSpacing: 1, marginBottom: 6 }}>Posição Secundária</div>
                   {r.posSec ? (
                     <>
                       <div style={{ fontSize: 18, fontWeight: 800, color: "#eab308" }}>{r.posSec}</div>
-                      <div style={{ fontSize: 12, color: "#bbb", marginTop: 2 }}>
+                      <div style={{ fontSize: 12, color: "#A4A8C0", marginTop: 2 }}>
                         {r.mode === "senior" ? (getPosMeta(r.posSec)?.label || r.posSec) : (getFormacaoPosMeta(r.posSec)?.label || r.posSec)}
                       </div>
-                      <button onClick={() => u("posSec", "")} style={{ marginTop: 8, fontSize: 10, background: "transparent", border: `1px solid ${S.border}`, color: "#999", padding: "4px 8px", borderRadius: 4, cursor: "pointer" }}>Remover</button>
+                      <button onClick={() => u("posSec", "")} style={{ marginTop: 8, fontSize: 10, background: "transparent", border: `1px solid ${S.border}`, color: "#A4A8C0", padding: "4px 8px", borderRadius: 4, cursor: "pointer" }}>Remover</button>
                     </>
                   ) : (
-                    <div style={{ fontSize: 12, color: "#666" }}>Nenhuma. Usa o select abaixo para definir.</div>
+                    <div style={{ fontSize: 12, color: "#5E6383" }}>Nenhuma. Usa o select abaixo para definir.</div>
                   )}
                   <select style={{ ...inp, marginTop: 10, fontSize: 11 }} value={r.posSec} onChange={e => u("posSec", e.target.value)}>
                     <option value="">— Selecionar secundária —</option>
@@ -1647,7 +1647,7 @@ export default function Builder({ meshParams = null }) {
                     ))}
                   </select>
                 </div>
-                <div style={{ marginTop: 12, fontSize: 10, color: "#666", lineHeight: 1.5 }}>
+                <div style={{ marginTop: 12, fontSize: 10, color: "#5E6383", lineHeight: 1.5 }}>
                   Clica num círculo do campo para definir a posição principal. Para a secundária, usa o select.
                 </div>
               </div>
@@ -1656,46 +1656,46 @@ export default function Builder({ meshParams = null }) {
 
           <div style={sec}>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))", gap: 12 }}>
-              <div style={{ background: "#13121a", border: `1px solid ${S.border}`, borderRadius: 10, padding: "16px 18px", textAlign: "center" }}>
-                <div style={{ fontSize: 10, textTransform: "uppercase", color: "#888", letterSpacing: 1, marginBottom: 6 }}>Idade</div>
+              <div style={{ background: "#161929", border: `1px solid ${S.border}`, borderRadius: 10, padding: "16px 18px", textAlign: "center" }}>
+                <div style={{ fontSize: 10, textTransform: "uppercase", color: "#5E6383", letterSpacing: 1, marginBottom: 6 }}>Idade</div>
                 <div style={{ fontSize: 36, fontWeight: 900, color: "#fff", lineHeight: 1 }}>{age != null ? age : "—"}</div>
-                <div style={{ fontSize: 10, color: "#666", marginTop: 4 }}>{age != null ? "anos" : "sem data"}</div>
+                <div style={{ fontSize: 10, color: "#5E6383", marginTop: 4 }}>{age != null ? "anos" : "sem data"}</div>
               </div>
-              <div style={{ background: "#13121a", border: `1px solid ${S.border}`, borderRadius: 10, padding: "16px 18px", textAlign: "center" }}>
-                <div style={{ fontSize: 10, textTransform: "uppercase", color: "#888", letterSpacing: 1, marginBottom: 6 }}>Contrato</div>
-                <div style={{ fontSize: 28, fontWeight: 900, color: contract?.color || "#666", lineHeight: 1 }}>{contract ? contract.label : "—"}</div>
-                <div style={{ fontSize: 10, color: "#666", marginTop: 4 }}>{contract ? "até fim" : "sem data"}</div>
+              <div style={{ background: "#161929", border: `1px solid ${S.border}`, borderRadius: 10, padding: "16px 18px", textAlign: "center" }}>
+                <div style={{ fontSize: 10, textTransform: "uppercase", color: "#5E6383", letterSpacing: 1, marginBottom: 6 }}>Contrato</div>
+                <div style={{ fontSize: 28, fontWeight: 900, color: contract?.color || "#5E6383", lineHeight: 1 }}>{contract ? contract.label : "—"}</div>
+                <div style={{ fontSize: 10, color: "#5E6383", marginTop: 4 }}>{contract ? "até fim" : "sem data"}</div>
               </div>
-              <div style={{ background: "#13121a", border: `1px solid ${S.border}`, borderRadius: 10, padding: "16px 18px", textAlign: "center" }}>
-                <div style={{ fontSize: 10, textTransform: "uppercase", color: "#888", letterSpacing: 1, marginBottom: 6 }}>Nota Global</div>
+              <div style={{ background: "#161929", border: `1px solid ${S.border}`, borderRadius: 10, padding: "16px 18px", textAlign: "center" }}>
+                <div style={{ fontSize: 10, textTransform: "uppercase", color: "#5E6383", letterSpacing: 1, marginBottom: 6 }}>Nota Global</div>
                 <div style={{ fontSize: 36, fontWeight: 900, color: S.red, lineHeight: 1 }}>{autoNota || "—"}</div>
-                <div style={{ fontSize: 10, color: "#666", marginTop: 4 }}>{r.mode === "senior" ? "auto · escala 1-5" : "auto · escala 0-10"}</div>
+                <div style={{ fontSize: 10, color: "#5E6383", marginTop: 4 }}>{r.mode === "senior" ? "auto · escala 1-5" : "auto · escala 0-10"}</div>
               </div>
-              <div style={{ background: "#13121a", border: `1px solid ${S.border}`, borderRadius: 10, padding: "16px 18px", textAlign: "center" }}>
-                <div style={{ fontSize: 10, textTransform: "uppercase", color: "#888", letterSpacing: 1, marginBottom: 8 }}>Potencial</div>
+              <div style={{ background: "#161929", border: `1px solid ${S.border}`, borderRadius: 10, padding: "16px 18px", textAlign: "center" }}>
+                <div style={{ fontSize: 10, textTransform: "uppercase", color: "#5E6383", letterSpacing: 1, marginBottom: 8 }}>Potencial</div>
                 <div style={{ display: "flex", justifyContent: "center", gap: 4 }}>
                   {["P1","P2","P3"].map(p => (
                     <button key={p} type="button" onClick={() => u("potencial", r.potencial === p ? "" : p)}
-                      style={{ background: r.potencial === p ? S.red : "transparent", border: `1px solid ${r.potencial === p ? S.red : "#3a3a42"}`, color: r.potencial === p ? "#fff" : "#666", cursor: "pointer", padding: "4px 8px", borderRadius: 6, fontSize: 13, fontWeight: 800, lineHeight: 1 }}>{p}</button>
+                      style={{ background: r.potencial === p ? S.red : "transparent", border: `1px solid ${r.potencial === p ? S.red : "#383D5C"}`, color: r.potencial === p ? "#fff" : "#5E6383", cursor: "pointer", padding: "4px 8px", borderRadius: 6, fontSize: 13, fontWeight: 800, lineHeight: 1 }}>{p}</button>
                   ))}
                 </div>
-                <div style={{ fontSize: 10, color: "#666", marginTop: 4 }}>topo estimado</div>
+                <div style={{ fontSize: 10, color: "#5E6383", marginTop: 4 }}>topo estimado</div>
               </div>
-              <div style={{ background: "#13121a", border: `1px solid ${S.border}`, borderRadius: 10, padding: "16px 18px", textAlign: "center" }}>
-                <div style={{ fontSize: 10, textTransform: "uppercase", color: "#888", letterSpacing: 1, marginBottom: 8 }}>Rendimento</div>
+              <div style={{ background: "#161929", border: `1px solid ${S.border}`, borderRadius: 10, padding: "16px 18px", textAlign: "center" }}>
+                <div style={{ fontSize: 10, textTransform: "uppercase", color: "#5E6383", letterSpacing: 1, marginBottom: 8 }}>Rendimento</div>
                 <div style={{ display: "flex", justifyContent: "center", gap: 4 }}>
                   {["R1","R2","R3"].map(p => (
                     <button key={p} type="button" onClick={() => u("rendimento", r.rendimento === p ? "" : p)}
-                      style={{ background: r.rendimento === p ? "#eab308" : "transparent", border: `1px solid ${r.rendimento === p ? "#eab308" : "#3a3a42"}`, color: r.rendimento === p ? "#fff" : "#666", cursor: "pointer", padding: "4px 8px", borderRadius: 6, fontSize: 13, fontWeight: 800, lineHeight: 1 }}>{p}</button>
+                      style={{ background: r.rendimento === p ? "#eab308" : "transparent", border: `1px solid ${r.rendimento === p ? "#eab308" : "#383D5C"}`, color: r.rendimento === p ? "#fff" : "#5E6383", cursor: "pointer", padding: "4px 8px", borderRadius: 6, fontSize: 13, fontWeight: 800, lineHeight: 1 }}>{p}</button>
                   ))}
                 </div>
-                <div style={{ fontSize: 10, color: "#666", marginTop: 4 }}>performance atual</div>
+                <div style={{ fontSize: 10, color: "#5E6383", marginTop: 4 }}>performance atual</div>
               </div>
             </div>
           </div>
 
           <div style={sec}>
-            <h2 style={h2}>Última Observação <span style={{ fontSize: 10, color: "#666", textTransform: "none", letterSpacing: 0, marginLeft: 8 }}>(opcional)</span></h2>
+            <h2 style={h2}>Última Observação <span style={{ fontSize: 10, color: "#5E6383", textTransform: "none", letterSpacing: 0, marginLeft: 8 }}>(opcional)</span></h2>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 10 }}>
               <div><label style={lbl}>Data</label><input style={inp} type="date" value={r.data} onChange={e=>u("data",e.target.value)} /></div>
               <div><label style={lbl}>Competição</label><input style={inp} value={r.comp} onChange={e=>u("comp",e.target.value)} /></div>
@@ -1712,7 +1712,7 @@ export default function Builder({ meshParams = null }) {
             <div style={sec}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14, flexWrap: "wrap", gap: 10 }}>
                 <h2 style={{...h2, marginBottom: 0}}>Avaliação — {posMeta?.label || r.pos}</h2>
-                <div style={{ fontSize: 11, color: "#888" }}>
+                <div style={{ fontSize: 11, color: "#5E6383" }}>
                   escala 1–5 &nbsp;|&nbsp; média: <span style={{ color: S.red, fontWeight: 700 }}>{autoNota || "—"}</span>
                 </div>
               </div>
@@ -1721,10 +1721,10 @@ export default function Builder({ meshParams = null }) {
                   const catVals = cat.items.map((_, i) => Number((r.cats || {})[`${ck}_${i}`] || 0)).filter(v => v > 0);
                   const catAvg = catVals.length ? (catVals.reduce((a,b)=>a+b,0)/catVals.length).toFixed(1) : "—";
                   return (
-                    <div key={ck} style={{ background: "#13121a", border: `1px solid ${S.border}`, borderRadius: 10, padding: "14px 16px" }}>
+                    <div key={ck} style={{ background: "#161929", border: `1px solid ${S.border}`, borderRadius: 10, padding: "14px 16px" }}>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10, paddingBottom: 8, borderBottom: `1px solid ${S.border}` }}>
                         <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 2, color: S.red, textTransform: "uppercase" }}>{cat.label}</div>
-                        <div style={{ fontSize: 20, fontWeight: 900, color: catAvg !== "—" ? tapColor(Number(catAvg)) : "#555" }}>{catAvg}</div>
+                        <div style={{ fontSize: 20, fontWeight: 900, color: catAvg !== "—" ? tapColor(Number(catAvg)) : "#5E6383" }}>{catAvg}</div>
                       </div>
                       {cat.items.map((item, i) => (
                         <TapRating
@@ -1753,21 +1753,21 @@ export default function Builder({ meshParams = null }) {
                         <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, marginBottom: 4 }}>
                           <span>{a}</span>
                           <span>
-                            {posAvg[a] > 0 && <span style={{ color: "#666", fontSize: 10, marginRight: 6 }}>avg {posAvg[a]}</span>}
+                            {posAvg[a] > 0 && <span style={{ color: "#5E6383", fontSize: 10, marginRight: 6 }}>avg {posAvg[a]}</span>}
                             <span style={{ color: sliderColor(r.atr[a] || 0), fontWeight: 700 }}>{r.atr[a] || 0}</span>
                           </span>
                         </div>
                         <input type="range" min="0" max="10" value={r.atr[a] || 0} onChange={e=>u("atr",{...r.atr, [a]: Number(e.target.value)})} style={{ width: "100%", accentColor: sliderColor(r.atr[a] || 0) }} />
                       </div>
                     ))}
-                    <div style={{ fontSize: 12, color: "#999", marginTop: 8 }}>Média: <span style={{ color: sliderColor(Number(media)), fontWeight: 700, fontSize: 16 }}>{media}</span></div>
+                    <div style={{ fontSize: 12, color: "#A4A8C0", marginTop: 8 }}>Média: <span style={{ color: sliderColor(Number(media)), fontWeight: 700, fontSize: 16 }}>{media}</span></div>
                   </div>
-                  <div style={{ background: "#1a1a1f", borderRadius: 8, padding: 10, minHeight: 300 }}>
+                  <div style={{ background: "#1F2338", borderRadius: 8, padding: 10, minHeight: 300 }}>
                     <ResponsiveContainer width="100%" height={280}>
                       <RadarChart data={radarData}>
-                        <PolarGrid stroke="#333" />
-                        <PolarAngleAxis dataKey="attr" tick={{ fill: "#bbb", fontSize: 9 }} />
-                        <PolarRadiusAxis domain={[0, 10]} tick={{ fill: "#666", fontSize: 8 }} />
+                        <PolarGrid stroke="#2A2E48" />
+                        <PolarAngleAxis dataKey="attr" tick={{ fill: "#A4A8C0", fontSize: 9 }} />
+                        <PolarRadiusAxis domain={[0, 10]} tick={{ fill: "#5E6383", fontSize: 8 }} />
                         <Radar name="Jogador" dataKey="v" stroke={S.red} fill={S.red} fillOpacity={0.45} strokeWidth={2} />
                       </RadarChart>
                     </ResponsiveContainer>
@@ -1782,11 +1782,11 @@ export default function Builder({ meshParams = null }) {
                     const val = r.dim[d] || 0;
                     const valColor = sliderColor(val);
                     return (
-                      <div key={d} style={{ background: "#13121a", border: `1px solid ${S.border}`, borderRadius: 10, padding: "18px 14px 14px 14px", textAlign: "center", position: "relative" }}>
+                      <div key={d} style={{ background: "#161929", border: `1px solid ${S.border}`, borderRadius: 10, padding: "18px 14px 14px 14px", textAlign: "center", position: "relative" }}>
                         <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: val > 0 ? valColor : S.border, borderTopLeftRadius: 10, borderTopRightRadius: 10, opacity: val > 0 ? 0.8 : 0.3 }} />
-                        <div style={{ fontSize: 10, textTransform: "uppercase", color: "#888", letterSpacing: 1.5, fontWeight: 600, marginBottom: 8 }}>{d}</div>
-                        <div style={{ fontSize: 42, fontWeight: 900, color: val > 0 ? valColor : "#3a3a42", lineHeight: 1, marginBottom: 4 }}>{val}</div>
-                        <div style={{ fontSize: 9, color: "#666", marginBottom: 12 }}>/ 10</div>
+                        <div style={{ fontSize: 10, textTransform: "uppercase", color: "#5E6383", letterSpacing: 1.5, fontWeight: 600, marginBottom: 8 }}>{d}</div>
+                        <div style={{ fontSize: 42, fontWeight: 900, color: val > 0 ? valColor : "#383D5C", lineHeight: 1, marginBottom: 4 }}>{val}</div>
+                        <div style={{ fontSize: 9, color: "#5E6383", marginBottom: 12 }}>/ 10</div>
                         <input type="range" min="0" max="10" value={val} onChange={e=>u("dim",{...r.dim, [d]: Number(e.target.value)})} style={{ width: "100%", accentColor: val > 0 ? valColor : S.red, cursor: "pointer" }} />
                       </div>
                     );
@@ -1806,7 +1806,7 @@ export default function Builder({ meshParams = null }) {
                 ))}
               </div>
               <div>
-                <label style={{...lbl, color: "#dc2626"}}>3 Lacunas</label>
+                <label style={{...lbl, color: "#C46868"}}>3 Lacunas</label>
                 {[0,1,2].map(i => (
                   <input key={i} style={{...inp, marginBottom: 8}} placeholder={`${i+1}.`} value={r.lacunas[i]} onChange={e=>{const n=[...r.lacunas]; n[i]=e.target.value; u("lacunas",n);}} />
                 ))}
@@ -1836,7 +1836,7 @@ export default function Builder({ meshParams = null }) {
                     {CLASSIFICACAO_OPTIONS.map(c => (
                       <button key={c} onClick={() => u("classificacao", c)} style={{
                         padding: "10px 6px", borderRadius: 8, border: `1px solid ${r.classificacao === c ? S.red : S.border}`,
-                        background: r.classificacao === c ? "rgba(237,28,36,0.15)" : "#1a1a1f", color: r.classificacao === c ? "#fff" : "#888",
+                        background: r.classificacao === c ? "rgba(221,184,92,0.15)" : "#1F2338", color: r.classificacao === c ? "#fff" : "#5E6383",
                         fontSize: 10, fontWeight: 700, letterSpacing: 0.5, cursor: "pointer", transition: "all 0.15s"
                       }}>{c}</button>
                     ))}
@@ -1847,11 +1847,11 @@ export default function Builder({ meshParams = null }) {
                   <label style={lbl}>Decisão</label>
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 8 }}>
                     {DECISAO_SENIOR.map(d => {
-                      const col = d === "CONTRATAR JÁ" ? "#16a34a" : d === "CONTRATAR" ? "#22c55e" : d === "MONITORIZAR" ? "#eab308" : "#dc2626";
+                      const col = d === "CONTRATAR JÁ" ? "#16a34a" : d === "CONTRATAR" ? "#22c55e" : d === "MONITORIZAR" ? "#eab308" : "#C46868";
                       return (
                         <button key={d} onClick={() => u("decisao", d)} style={{
                           padding: "14px 8px", borderRadius: 8, border: `2px solid ${r.decisao === d ? col : S.border}`,
-                          background: r.decisao === d ? col : "#1a1a1f", color: "#fff",
+                          background: r.decisao === d ? col : "#1F2338", color: "#fff",
                           fontSize: 11, fontWeight: 700, letterSpacing: 0.5, cursor: "pointer", transition: "all 0.15s"
                         }}>{d}</button>
                       );
@@ -1861,8 +1861,8 @@ export default function Builder({ meshParams = null }) {
 
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 12, marginBottom: 16 }}>
                   {[["avImediata","AV. IMEDIATA"],["avMedioPrazo","AV. MÉDIO PRAZO"],["avLongoPrazo","AV. LONGO PRAZO"]].map(([k,l]) => (
-                    <div key={k} style={{ background: "#13121a", border: `1px solid ${S.border}`, borderRadius: 10, padding: "14px 10px", textAlign: "center" }}>
-                      <div style={{ fontSize: 8, color: "#888", textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 8 }}>{l}</div>
+                    <div key={k} style={{ background: "#161929", border: `1px solid ${S.border}`, borderRadius: 10, padding: "14px 10px", textAlign: "center" }}>
+                      <div style={{ fontSize: 8, color: "#5E6383", textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 8 }}>{l}</div>
                       <div style={{ display: "flex", justifyContent: "center", gap: 4 }}>
                         {[1,2,3,4,5].map(v => (
                           <button key={v} type="button" onClick={() => u(k, v)} style={{
@@ -1882,7 +1882,7 @@ export default function Builder({ meshParams = null }) {
                 {DECISIONS.map(d => (
                   <button key={d.id} onClick={() => u("decisao", d.id)} style={{
                     padding: "24px 12px", borderRadius: 10, border: `2px solid ${r.decisao === d.id ? d.color : S.border}`,
-                    background: r.decisao === d.id ? d.color : "#1a1a1f", color: "#fff",
+                    background: r.decisao === d.id ? d.color : "#1F2338", color: "#fff",
                     fontSize: 15, fontWeight: 700, letterSpacing: 1, cursor: "pointer", transition: "all 0.2s"
                   }}>{d.label}</button>
                 ))}
@@ -1907,9 +1907,9 @@ export default function Builder({ meshParams = null }) {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 22, paddingBottom: 14, borderBottom: `2px solid ${S.red}` }}>
             <div>
               <div style={{ color: S.red, fontSize: 36, fontWeight: 900, letterSpacing: 2, lineHeight: 1 }}>SPORTRAIL</div>
-              <div style={{ fontSize: 12, color: "#888", letterSpacing: 2, marginTop: 4 }}>S³ SCOUTING REPORT</div>
+              <div style={{ fontSize: 12, color: "#5E6383", letterSpacing: 2, marginTop: 4 }}>S³ SCOUTING REPORT</div>
             </div>
-            <div style={{ fontSize: 13, color: "#888", textAlign: "right" }}>
+            <div style={{ fontSize: 13, color: "#5E6383", textAlign: "right" }}>
               {r.dataRel && <div>{r.dataRel}</div>}
               {r.scout && <div style={{ marginTop: 2 }}>{r.scout}</div>}
             </div>
@@ -1919,7 +1919,7 @@ export default function Builder({ meshParams = null }) {
           <div style={{ display: "grid", gridTemplateColumns: "200px 1fr 180px", gap: 24, alignItems: "center", marginBottom: 18 }}>
             {/* Photo */}
             <div style={{ position: "relative", width: 200, height: 240 }}>
-              <div style={{ width: 200, height: 240, borderRadius: 12, background: "#1a1a1f", border: `3px solid ${S.red}`, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", ...(r.foto ? { backgroundImage: `url(${r.foto})`, backgroundSize: "cover", backgroundPosition: "center" } : {}) }}>
+              <div style={{ width: 200, height: 240, borderRadius: 12, background: "#1F2338", border: `3px solid ${S.red}`, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", ...(r.foto ? { backgroundImage: `url(${r.foto})`, backgroundSize: "cover", backgroundPosition: "center" } : {}) }}>
                 {!r.foto && <span style={{ color: S.red, fontSize: 80, fontWeight: 900 }}>{initials(r.nome)}</span>}
               </div>
               {/* Position badge bottom-right of photo */}
@@ -1936,21 +1936,21 @@ export default function Builder({ meshParams = null }) {
               <div style={{ fontSize: 17, color: S.red, marginTop: 10, fontWeight: 700, letterSpacing: 0.5, textTransform: "uppercase" }}>
                 {r.clube || "—"}
               </div>
-              <div style={{ fontSize: 14, color: "#bbb", marginTop: 4 }}>
+              <div style={{ fontSize: 14, color: "#A4A8C0", marginTop: 4 }}>
                 {[r.mode === "senior" ? (getPosMeta(r.pos)?.label || r.pos) : r.pos, `Pé ${r.pe}`].filter(Boolean).join(" · ")}
               </div>
-              <div style={{ fontSize: 13, color: "#888", marginTop: 4 }}>
+              <div style={{ fontSize: 13, color: "#5E6383", marginTop: 4 }}>
                 {[r.nacionalidade, age != null && `${age} anos`, r.altura && `${r.altura} cm`, r.peso && `${r.peso} kg`].filter(Boolean).join(" · ")}
               </div>
             </div>
 
             {/* NOTA */}
             <div style={{ textAlign: "center", borderLeft: `1px solid ${S.border}`, paddingLeft: 18 }}>
-              <div style={{ fontSize: 11, color: "#888", textTransform: "uppercase", letterSpacing: 2, marginBottom: 2 }}>Nota</div>
+              <div style={{ fontSize: 11, color: "#5E6383", textTransform: "uppercase", letterSpacing: 2, marginBottom: 2 }}>Nota</div>
               <div style={{ fontSize: 110, fontWeight: 900, color: S.red, lineHeight: 0.95 }}>{autoNota || r.nota || "—"}</div>
-              <div style={{ fontSize: 12, color: "#666", marginTop: -4 }}>/ {r.mode === "senior" ? "5" : "10"}</div>
+              <div style={{ fontSize: 12, color: "#5E6383", marginTop: -4 }}>/ {r.mode === "senior" ? "5" : "10"}</div>
               {r.mode === "senior" && r.classificacao && (
-                <div style={{ marginTop: 8, padding: "4px 10px", background: "rgba(237,28,36,0.15)", border: `1px solid ${S.red}`, borderRadius: 6, fontSize: 10, fontWeight: 700, color: "#fff", letterSpacing: 0.5 }}>{r.classificacao}</div>
+                <div style={{ marginTop: 8, padding: "4px 10px", background: "rgba(221,184,92,0.15)", border: `1px solid ${S.red}`, borderRadius: 6, fontSize: 10, fontWeight: 700, color: "#fff", letterSpacing: 0.5 }}>{r.classificacao}</div>
               )}
               {r.mode !== "senior" && (r.potencial || r.rendimento) && (
                 <div style={{ marginTop: 10, display: "flex", gap: 6, justifyContent: "center" }}>
@@ -1968,8 +1968,8 @@ export default function Builder({ meshParams = null }) {
               { label: "GOLOS", value: r.golos, color: S.red },
               { label: "ASSISTÊNCIAS", value: r.assists, color: "#22c55e" },
             ].map(s => (
-              <div key={s.label} style={{ background: "#13121a", border: `1px solid ${S.border}`, borderRadius: 10, padding: "14px 0", textAlign: "center" }}>
-                <div style={{ fontSize: 11, color: "#888", textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 6 }}>{s.label}</div>
+              <div key={s.label} style={{ background: "#161929", border: `1px solid ${S.border}`, borderRadius: 10, padding: "14px 0", textAlign: "center" }}>
+                <div style={{ fontSize: 11, color: "#5E6383", textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 6 }}>{s.label}</div>
                 <div style={{ fontSize: 44, fontWeight: 900, color: s.color, lineHeight: 1 }}>{s.value || "—"}</div>
               </div>
             ))}
@@ -1980,9 +1980,9 @@ export default function Builder({ meshParams = null }) {
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 14 }}>
               {seniorCats && Object.entries(seniorCats).map(([ck, cat]) => {
                 const avg = catAvgs[ck] || 0;
-                const barColor = tapColor(avg) || "#3a3a42";
+                const barColor = tapColor(avg) || "#383D5C";
                 return (
-                  <div key={ck} style={{ background: "#13121a", border: `1px solid ${S.border}`, borderRadius: 10, padding: "10px 12px 6px 12px" }}>
+                  <div key={ck} style={{ background: "#161929", border: `1px solid ${S.border}`, borderRadius: 10, padding: "10px 12px 6px 12px" }}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 4 }}>
                       <span style={{ fontSize: 10, fontWeight: 800, color: barColor, textTransform: "uppercase", letterSpacing: 1.5 }}>{cat.label}</span>
                       <span style={{ fontSize: 20, fontWeight: 900, color: barColor, lineHeight: 1 }}>{avg || "—"}</span>
@@ -1992,14 +1992,14 @@ export default function Builder({ meshParams = null }) {
                     </div>
                     {cat.items.map((item, i) => {
                       const v = Number((r.cats || {})[`${ck}_${i}`] || 0);
-                      const vColor = v > 0 ? tapColor(v) : "#333";
+                      const vColor = v > 0 ? tapColor(v) : "#2A2E48";
                       return (
                         <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 3, gap: 4 }}>
                           <div style={{ display: "flex", alignItems: "center", gap: 5, minWidth: 0, flex: 1 }}>
-                            <div style={{ width: 5, height: 5, borderRadius: "50%", background: v > 0 ? vColor : "#2a2a2f", flexShrink: 0 }} />
-                            <span style={{ fontSize: 10, color: "#aaa", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item}</span>
+                            <div style={{ width: 5, height: 5, borderRadius: "50%", background: v > 0 ? vColor : "#2A2E48", flexShrink: 0 }} />
+                            <span style={{ fontSize: 10, color: "#A4A8C0", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item}</span>
                           </div>
-                          <span style={{ fontSize: 11, fontWeight: 700, color: v > 0 ? vColor : "#444", flexShrink: 0 }}>{v || "—"}</span>
+                          <span style={{ fontSize: 11, fontWeight: 700, color: v > 0 ? vColor : "#2A2E48", flexShrink: 0 }}>{v || "—"}</span>
                         </div>
                       );
                     })}
@@ -2008,12 +2008,12 @@ export default function Builder({ meshParams = null }) {
               })}
             </div>
           ) : (
-            <div style={{ background: "#13121a", border: `1px solid ${S.border}`, borderRadius: 12, padding: "16px 16px 8px 16px", marginBottom: 14, display: "flex", flexDirection: "column", alignItems: "center" }}>
-              <div style={{ fontSize: 11, color: "#888", textTransform: "uppercase", letterSpacing: 2, marginBottom: 4, alignSelf: "flex-start" }}>
+            <div style={{ background: "#161929", border: `1px solid ${S.border}`, borderRadius: 12, padding: "16px 16px 8px 16px", marginBottom: 14, display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <div style={{ fontSize: 11, color: "#5E6383", textTransform: "uppercase", letterSpacing: 2, marginBottom: 4, alignSelf: "flex-start" }}>
                 ATRIBUTOS {posMeta && `· ${posMeta.label}`}
               </div>
               <div style={{ width: 320, height: 320 }}>
-                <ShareRadar labels={attrs} values={attrs.map(a => r.atr[a] || 0)} size={320} color={S.red} labelColor="#bbb" valueColor={S.red} gridColor="#3a3a42" />
+                <ShareRadar labels={attrs} values={attrs.map(a => r.atr[a] || 0)} size={320} color={S.red} labelColor="#A4A8C0" valueColor={S.red} gridColor="#383D5C" />
               </div>
             </div>
           )}
@@ -2023,12 +2023,12 @@ export default function Builder({ meshParams = null }) {
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10, marginBottom: 14 }}>
               {[["avImediata","IMEDIATA"],["avMedioPrazo","MÉDIO PRAZO"],["avLongoPrazo","LONGO PRAZO"]].map(([k, l]) => {
                 const val = r[k] || 0;
-                const vColor = val > 0 ? tapColor(val) : "#3a3a42";
+                const vColor = val > 0 ? tapColor(val) : "#383D5C";
                 return (
-                  <div key={k} style={{ background: "#13121a", border: `1px solid ${S.border}`, borderRadius: 10, padding: "14px 8px", textAlign: "center" }}>
-                    <div style={{ fontSize: 10, color: "#888", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>{l}</div>
-                    <div style={{ fontSize: 44, fontWeight: 900, color: val > 0 ? vColor : "#3a3a42", lineHeight: 1 }}>{val || "—"}</div>
-                    <div style={{ fontSize: 10, color: "#666", marginTop: 4 }}>/ 5</div>
+                  <div key={k} style={{ background: "#161929", border: `1px solid ${S.border}`, borderRadius: 10, padding: "14px 8px", textAlign: "center" }}>
+                    <div style={{ fontSize: 10, color: "#5E6383", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>{l}</div>
+                    <div style={{ fontSize: 44, fontWeight: 900, color: val > 0 ? vColor : "#383D5C", lineHeight: 1 }}>{val || "—"}</div>
+                    <div style={{ fontSize: 10, color: "#5E6383", marginTop: 4 }}>/ 5</div>
                   </div>
                 );
               })}
@@ -2039,10 +2039,10 @@ export default function Builder({ meshParams = null }) {
                 const val = Number(r.dim[d] || 0);
                 const valColor = sliderColor(val);
                 return (
-                  <div key={d} style={{ background: "#13121a", border: `1px solid ${S.border}`, borderRadius: 8, padding: "10px 8px", textAlign: "center", position: "relative" }}>
+                  <div key={d} style={{ background: "#161929", border: `1px solid ${S.border}`, borderRadius: 8, padding: "10px 8px", textAlign: "center", position: "relative" }}>
                     <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: val > 0 ? valColor : S.border, borderTopLeftRadius: 8, borderTopRightRadius: 8 }} />
-                    <div style={{ fontSize: 10, color: "#888", textTransform: "uppercase", letterSpacing: 1, marginTop: 4 }}>{d}</div>
-                    <div style={{ fontSize: 32, fontWeight: 900, color: val > 0 ? valColor : "#3a3a42", lineHeight: 1, marginTop: 4 }}>{val}</div>
+                    <div style={{ fontSize: 10, color: "#5E6383", textTransform: "uppercase", letterSpacing: 1, marginTop: 4 }}>{d}</div>
+                    <div style={{ fontSize: 32, fontWeight: 900, color: val > 0 ? valColor : "#383D5C", lineHeight: 1, marginTop: 4 }}>{val}</div>
                   </div>
                 );
               })}
@@ -2054,16 +2054,16 @@ export default function Builder({ meshParams = null }) {
             <div>
               <div style={{ fontSize: 11, color: "#22c55e", fontWeight: 800, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1.5 }}>✓ Pontos Fortes</div>
               {r.fortes.filter(Boolean).slice(0, 3).map((f, i) => (
-                <div key={i} style={{ fontSize: 13, marginBottom: 4, color: "#ddd", lineHeight: 1.3 }}>
+                <div key={i} style={{ fontSize: 13, marginBottom: 4, color: "#A4A8C0", lineHeight: 1.3 }}>
                   <span style={{ color: "#22c55e", marginRight: 4 }}>▸</span>{f}
                 </div>
               ))}
             </div>
             <div>
-              <div style={{ fontSize: 11, color: "#ef4444", fontWeight: 800, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1.5 }}>✗ Lacunas</div>
+              <div style={{ fontSize: 11, color: "#C46868", fontWeight: 800, marginBottom: 6, textTransform: "uppercase", letterSpacing: 1.5 }}>✗ Lacunas</div>
               {r.lacunas.filter(Boolean).slice(0, 3).map((f, i) => (
-                <div key={i} style={{ fontSize: 13, marginBottom: 4, color: "#ddd", lineHeight: 1.3 }}>
-                  <span style={{ color: "#ef4444", marginRight: 4 }}>▸</span>{f}
+                <div key={i} style={{ fontSize: 13, marginBottom: 4, color: "#A4A8C0", lineHeight: 1.3 }}>
+                  <span style={{ color: "#C46868", marginRight: 4 }}>▸</span>{f}
                 </div>
               ))}
             </div>
@@ -2086,7 +2086,7 @@ export default function Builder({ meshParams = null }) {
           )}
 
           {/* FOOTER */}
-          <div style={{ fontSize: 12, color: "#666", textAlign: "center" }}>
+          <div style={{ fontSize: 12, color: "#5E6383", textAlign: "center" }}>
             scouting.sportrail.pt
           </div>
         </div>
@@ -2097,9 +2097,9 @@ export default function Builder({ meshParams = null }) {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18, paddingBottom: 12, borderBottom: `2px solid ${S.red}` }}>
             <div>
               <div style={{ color: S.red, fontSize: 30, fontWeight: 900, letterSpacing: 2, lineHeight: 1 }}>SPORTRAIL</div>
-              <div style={{ fontSize: 11, color: "#888", letterSpacing: 2, marginTop: 3 }}>S³ SCOUTING REPORT</div>
+              <div style={{ fontSize: 11, color: "#5E6383", letterSpacing: 2, marginTop: 3 }}>S³ SCOUTING REPORT</div>
             </div>
-            <div style={{ fontSize: 12, color: "#888", textAlign: "right" }}>
+            <div style={{ fontSize: 12, color: "#5E6383", textAlign: "right" }}>
               {r.dataRel && <div>{r.dataRel}</div>}
               {r.scout && <div style={{ marginTop: 2 }}>{r.scout}</div>}
             </div>
@@ -2108,7 +2108,7 @@ export default function Builder({ meshParams = null }) {
           {/* PLAYER HEADER: photo + info + nota */}
           <div style={{ display: "grid", gridTemplateColumns: "180px 1fr 160px", gap: 22, alignItems: "center", marginBottom: 16 }}>
             <div style={{ position: "relative", width: 180, height: 220 }}>
-              <div style={{ width: 180, height: 220, borderRadius: 12, background: "#1a1a1f", border: `3px solid ${S.red}`, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", ...(r.foto ? { backgroundImage: `url(${r.foto})`, backgroundSize: "cover", backgroundPosition: "center" } : {}) }}>
+              <div style={{ width: 180, height: 220, borderRadius: 12, background: "#1F2338", border: `3px solid ${S.red}`, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", ...(r.foto ? { backgroundImage: `url(${r.foto})`, backgroundSize: "cover", backgroundPosition: "center" } : {}) }}>
                 {!r.foto && <span style={{ color: S.red, fontSize: 72, fontWeight: 900 }}>{initials(r.nome)}</span>}
               </div>
               {r.mode === "senior" && r.pos && (
@@ -2123,10 +2123,10 @@ export default function Builder({ meshParams = null }) {
               <div style={{ fontSize: 14, color: S.red, marginTop: 8, fontWeight: 700, letterSpacing: 0.5, textTransform: "uppercase" }}>
                 {r.clube || "—"}
               </div>
-              <div style={{ fontSize: 12, color: "#bbb", marginTop: 4 }}>
+              <div style={{ fontSize: 12, color: "#A4A8C0", marginTop: 4 }}>
                 {[r.mode === "senior" ? (getPosMeta(r.pos)?.label || r.pos) : r.pos, `Pé ${r.pe}`].filter(Boolean).join(" · ")}
               </div>
-              <div style={{ fontSize: 11, color: "#888", marginTop: 3 }}>
+              <div style={{ fontSize: 11, color: "#5E6383", marginTop: 3 }}>
                 {[r.nacionalidade, age != null && `${age} anos`, r.altura && `${r.altura} cm`].filter(Boolean).join(" · ")}
               </div>
               {/* Inline season stats compact */}
@@ -2136,8 +2136,8 @@ export default function Builder({ meshParams = null }) {
                   { label: "G", value: r.golos, color: S.red },
                   { label: "A", value: r.assists, color: "#22c55e" },
                 ].map(s => (
-                  <div key={s.label} style={{ flex: 1, background: "#13121a", border: `1px solid ${S.border}`, borderRadius: 7, padding: "6px 4px", textAlign: "center" }}>
-                    <div style={{ fontSize: 9, color: "#888", letterSpacing: 1, fontWeight: 700 }}>{s.label}</div>
+                  <div key={s.label} style={{ flex: 1, background: "#161929", border: `1px solid ${S.border}`, borderRadius: 7, padding: "6px 4px", textAlign: "center" }}>
+                    <div style={{ fontSize: 9, color: "#5E6383", letterSpacing: 1, fontWeight: 700 }}>{s.label}</div>
                     <div style={{ fontSize: 22, fontWeight: 900, color: s.color, lineHeight: 1 }}>{s.value || "—"}</div>
                   </div>
                 ))}
@@ -2145,11 +2145,11 @@ export default function Builder({ meshParams = null }) {
             </div>
 
             <div style={{ textAlign: "center", borderLeft: `1px solid ${S.border}`, paddingLeft: 14 }}>
-              <div style={{ fontSize: 10, color: "#888", textTransform: "uppercase", letterSpacing: 2, marginBottom: 2 }}>Nota</div>
+              <div style={{ fontSize: 10, color: "#5E6383", textTransform: "uppercase", letterSpacing: 2, marginBottom: 2 }}>Nota</div>
               <div style={{ fontSize: 92, fontWeight: 900, color: S.red, lineHeight: 0.95 }}>{autoNota || r.nota || "—"}</div>
-              <div style={{ fontSize: 11, color: "#666", marginTop: -2 }}>/ {r.mode === "senior" ? "5" : "10"}</div>
+              <div style={{ fontSize: 11, color: "#5E6383", marginTop: -2 }}>/ {r.mode === "senior" ? "5" : "10"}</div>
               {r.mode === "senior" && r.classificacao && (
-                <div style={{ marginTop: 8, padding: "3px 8px", background: "rgba(237,28,36,0.15)", border: `1px solid ${S.red}`, borderRadius: 5, fontSize: 9, fontWeight: 700, color: "#fff", letterSpacing: 0.5 }}>{r.classificacao}</div>
+                <div style={{ marginTop: 8, padding: "3px 8px", background: "rgba(221,184,92,0.15)", border: `1px solid ${S.red}`, borderRadius: 5, fontSize: 9, fontWeight: 700, color: "#fff", letterSpacing: 0.5 }}>{r.classificacao}</div>
               )}
               {r.mode !== "senior" && (r.potencial || r.rendimento) && (
                 <div style={{ marginTop: 8, display: "flex", gap: 5, justifyContent: "center" }}>
@@ -2166,9 +2166,9 @@ export default function Builder({ meshParams = null }) {
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
                 {seniorCats && Object.entries(seniorCats).map(([ck, cat]) => {
                   const avg = catAvgs[ck] || 0;
-                  const barColor = tapColor(avg) || "#3a3a42";
+                  const barColor = tapColor(avg) || "#383D5C";
                   return (
-                    <div key={ck} style={{ background: "#13121a", border: `1px solid ${S.border}`, borderRadius: 9, padding: "9px 10px 5px 10px" }}>
+                    <div key={ck} style={{ background: "#161929", border: `1px solid ${S.border}`, borderRadius: 9, padding: "9px 10px 5px 10px" }}>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 4 }}>
                         <span style={{ fontSize: 9, fontWeight: 800, color: barColor, textTransform: "uppercase", letterSpacing: 1.5 }}>{cat.label}</span>
                         <span style={{ fontSize: 18, fontWeight: 900, color: barColor, lineHeight: 1 }}>{avg || "—"}</span>
@@ -2178,14 +2178,14 @@ export default function Builder({ meshParams = null }) {
                       </div>
                       {cat.items.map((item, i) => {
                         const v = Number((r.cats || {})[`${ck}_${i}`] || 0);
-                        const vColor = v > 0 ? tapColor(v) : "#333";
+                        const vColor = v > 0 ? tapColor(v) : "#2A2E48";
                         return (
                           <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 2, gap: 3 }}>
                             <div style={{ display: "flex", alignItems: "center", gap: 4, minWidth: 0, flex: 1 }}>
-                              <div style={{ width: 4, height: 4, borderRadius: "50%", background: v > 0 ? vColor : "#2a2a2f", flexShrink: 0 }} />
-                              <span style={{ fontSize: 9, color: "#aaa", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item}</span>
+                              <div style={{ width: 4, height: 4, borderRadius: "50%", background: v > 0 ? vColor : "#2A2E48", flexShrink: 0 }} />
+                              <span style={{ fontSize: 9, color: "#A4A8C0", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item}</span>
                             </div>
-                            <span style={{ fontSize: 10, fontWeight: 700, color: v > 0 ? vColor : "#444", flexShrink: 0 }}>{v || "—"}</span>
+                            <span style={{ fontSize: 10, fontWeight: 700, color: v > 0 ? vColor : "#2A2E48", flexShrink: 0 }}>{v || "—"}</span>
                           </div>
                         );
                       })}
@@ -2196,12 +2196,12 @@ export default function Builder({ meshParams = null }) {
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 }}>
                 {[["avImediata","IMEDIATA"],["avMedioPrazo","MÉDIO PRAZO"],["avLongoPrazo","LONGO PRAZO"]].map(([k, l]) => {
                   const val = r[k] || 0;
-                  const vColor = val > 0 ? tapColor(val) : "#3a3a42";
+                  const vColor = val > 0 ? tapColor(val) : "#383D5C";
                   return (
-                    <div key={k} style={{ background: "#13121a", border: `1px solid ${S.border}`, borderRadius: 8, padding: "10px 6px", textAlign: "center" }}>
-                      <div style={{ fontSize: 9, color: "#888", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 4 }}>{l}</div>
-                      <div style={{ fontSize: 32, fontWeight: 900, color: val > 0 ? vColor : "#3a3a42", lineHeight: 1 }}>{val || "—"}</div>
-                      <div style={{ fontSize: 9, color: "#666" }}>/ 5</div>
+                    <div key={k} style={{ background: "#161929", border: `1px solid ${S.border}`, borderRadius: 8, padding: "10px 6px", textAlign: "center" }}>
+                      <div style={{ fontSize: 9, color: "#5E6383", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 4 }}>{l}</div>
+                      <div style={{ fontSize: 32, fontWeight: 900, color: val > 0 ? vColor : "#383D5C", lineHeight: 1 }}>{val || "—"}</div>
+                      <div style={{ fontSize: 9, color: "#5E6383" }}>/ 5</div>
                     </div>
                   );
                 })}
@@ -2209,24 +2209,24 @@ export default function Builder({ meshParams = null }) {
             </div>
           ) : (
             <div style={{ display: "grid", gridTemplateColumns: "1fr 320px", gap: 16, flex: 1, marginBottom: 12 }}>
-              <div style={{ background: "#13121a", border: `1px solid ${S.border}`, borderRadius: 12, padding: "14px 14px 6px 14px", display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <div style={{ fontSize: 10, color: "#888", textTransform: "uppercase", letterSpacing: 2, marginBottom: 2, alignSelf: "flex-start" }}>
+              <div style={{ background: "#161929", border: `1px solid ${S.border}`, borderRadius: 12, padding: "14px 14px 6px 14px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                <div style={{ fontSize: 10, color: "#5E6383", textTransform: "uppercase", letterSpacing: 2, marginBottom: 2, alignSelf: "flex-start" }}>
                   ATRIBUTOS {posMeta && `· ${posMeta.label}`}
                 </div>
                 <div style={{ width: "100%", maxWidth: 320, flex: 1 }}>
-                  <ShareRadar labels={attrs} values={attrs.map(a => r.atr[a] || 0)} size={320} color={S.red} labelColor="#bbb" valueColor={S.red} gridColor="#3a3a42" />
+                  <ShareRadar labels={attrs} values={attrs.map(a => r.atr[a] || 0)} size={320} color={S.red} labelColor="#A4A8C0" valueColor={S.red} gridColor="#383D5C" />
                 </div>
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                <div style={{ fontSize: 10, color: "#888", textTransform: "uppercase", letterSpacing: 2, marginBottom: 2 }}>DIMENSÕES</div>
+                <div style={{ fontSize: 10, color: "#5E6383", textTransform: "uppercase", letterSpacing: 2, marginBottom: 2 }}>DIMENSÕES</div>
                 {dims.map(d => {
                   const val = Number(r.dim[d] || 0);
                   const valColor = sliderColor(val);
                   return (
-                    <div key={d} style={{ background: "#13121a", border: `1px solid ${S.border}`, borderRadius: 8, padding: "10px 14px", display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative", flex: 1 }}>
+                    <div key={d} style={{ background: "#161929", border: `1px solid ${S.border}`, borderRadius: 8, padding: "10px 14px", display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative", flex: 1 }}>
                       <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 3, background: val > 0 ? valColor : S.border, borderTopLeftRadius: 8, borderBottomLeftRadius: 8 }} />
-                      <div style={{ fontSize: 13, color: "#bbb", textTransform: "uppercase", letterSpacing: 1, fontWeight: 700, marginLeft: 6 }}>{d}</div>
-                      <div style={{ fontSize: 28, fontWeight: 900, color: val > 0 ? valColor : "#3a3a42", lineHeight: 1 }}>{val}</div>
+                      <div style={{ fontSize: 13, color: "#A4A8C0", textTransform: "uppercase", letterSpacing: 1, fontWeight: 700, marginLeft: 6 }}>{d}</div>
+                      <div style={{ fontSize: 28, fontWeight: 900, color: val > 0 ? valColor : "#383D5C", lineHeight: 1 }}>{val}</div>
                     </div>
                   );
                 })}
@@ -2239,16 +2239,16 @@ export default function Builder({ meshParams = null }) {
             <div>
               <div style={{ fontSize: 10, color: "#22c55e", fontWeight: 800, marginBottom: 4, textTransform: "uppercase", letterSpacing: 1.5 }}>✓ Pontos Fortes</div>
               {r.fortes.filter(Boolean).slice(0, 3).map((f, i) => (
-                <div key={i} style={{ fontSize: 12, marginBottom: 3, color: "#ddd", lineHeight: 1.3 }}>
+                <div key={i} style={{ fontSize: 12, marginBottom: 3, color: "#A4A8C0", lineHeight: 1.3 }}>
                   <span style={{ color: "#22c55e", marginRight: 4 }}>▸</span>{f}
                 </div>
               ))}
             </div>
             <div>
-              <div style={{ fontSize: 10, color: "#ef4444", fontWeight: 800, marginBottom: 4, textTransform: "uppercase", letterSpacing: 1.5 }}>✗ Lacunas</div>
+              <div style={{ fontSize: 10, color: "#C46868", fontWeight: 800, marginBottom: 4, textTransform: "uppercase", letterSpacing: 1.5 }}>✗ Lacunas</div>
               {r.lacunas.filter(Boolean).slice(0, 3).map((f, i) => (
-                <div key={i} style={{ fontSize: 12, marginBottom: 3, color: "#ddd", lineHeight: 1.3 }}>
-                  <span style={{ color: "#ef4444", marginRight: 4 }}>▸</span>{f}
+                <div key={i} style={{ fontSize: 12, marginBottom: 3, color: "#A4A8C0", lineHeight: 1.3 }}>
+                  <span style={{ color: "#C46868", marginRight: 4 }}>▸</span>{f}
                 </div>
               ))}
             </div>
@@ -2271,7 +2271,7 @@ export default function Builder({ meshParams = null }) {
           )}
 
           {/* FOOTER */}
-          <div style={{ fontSize: 11, color: "#666", textAlign: "center" }}>
+          <div style={{ fontSize: 11, color: "#5E6383", textAlign: "center" }}>
             scouting.sportrail.pt
           </div>
         </div>
@@ -2282,9 +2282,9 @@ export default function Builder({ meshParams = null }) {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingBottom: 24, marginBottom: 36, borderBottom: `3px solid ${S.red}` }}>
             <div>
               <div style={{ color: S.red, fontSize: 64, fontWeight: 900, letterSpacing: 3, lineHeight: 1 }}>S³</div>
-              <div style={{ fontSize: 13, color: "#888", letterSpacing: 3, marginTop: 4, fontWeight: 700 }}>SPORTRAIL SCOUTING</div>
+              <div style={{ fontSize: 13, color: "#5E6383", letterSpacing: 3, marginTop: 4, fontWeight: 700 }}>SPORTRAIL SCOUTING</div>
             </div>
-            <div style={{ textAlign: "right", fontSize: 14, color: "#888" }}>
+            <div style={{ textAlign: "right", fontSize: 14, color: "#5E6383" }}>
               {r.dataRel && <div>{r.dataRel}</div>}
               {r.scout && <div style={{ marginTop: 4 }}>{r.scout}</div>}
             </div>
@@ -2293,7 +2293,7 @@ export default function Builder({ meshParams = null }) {
           {/* PLAYER HERO */}
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: 32 }}>
             <div style={{ position: "relative", width: 280, height: 340, marginBottom: 28 }}>
-              <div style={{ width: 280, height: 340, borderRadius: 20, background: "#1a1a1f", border: `4px solid ${S.red}`, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", ...(r.foto ? { backgroundImage: `url(${r.foto})`, backgroundSize: "cover", backgroundPosition: "center" } : {}) }}>
+              <div style={{ width: 280, height: 340, borderRadius: 20, background: "#1F2338", border: `4px solid ${S.red}`, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center", ...(r.foto ? { backgroundImage: `url(${r.foto})`, backgroundSize: "cover", backgroundPosition: "center" } : {}) }}>
                 {!r.foto && <span style={{ color: S.red, fontSize: 110, fontWeight: 900, lineHeight: 1 }}>{initials(r.nome)}</span>}
               </div>
               {r.mode === "senior" && r.pos && (
@@ -2304,18 +2304,18 @@ export default function Builder({ meshParams = null }) {
             </div>
             <div style={{ fontSize: 52, fontWeight: 900, lineHeight: 1.05, color: "#fff", textTransform: "uppercase", letterSpacing: 1, textAlign: "center", marginBottom: 10 }}>{r.nome || "—"}</div>
             <div style={{ fontSize: 22, color: S.red, fontWeight: 700, letterSpacing: 1, textAlign: "center", marginBottom: 6 }}>{r.clube || "—"}</div>
-            <div style={{ fontSize: 15, color: "#bbb", textAlign: "center" }}>
+            <div style={{ fontSize: 15, color: "#A4A8C0", textAlign: "center" }}>
               {[r.mode === "senior" ? (getPosMeta(r.pos)?.label || r.pos) : r.pos, `Pé ${r.pe}`, age != null && `${age} anos`].filter(Boolean).join(" · ")}
             </div>
           </div>
 
           {/* NOTA + P/R */}
           <div style={{ textAlign: "center", marginBottom: 28, padding: "22px 0", borderTop: `1px solid ${S.border}`, borderBottom: `1px solid ${S.border}` }}>
-            <div style={{ fontSize: 11, color: "#888", textTransform: "uppercase", letterSpacing: 3, marginBottom: 6 }}>Nota Global</div>
+            <div style={{ fontSize: 11, color: "#5E6383", textTransform: "uppercase", letterSpacing: 3, marginBottom: 6 }}>Nota Global</div>
             <div style={{ fontSize: 140, fontWeight: 900, color: S.red, lineHeight: 0.9 }}>{autoNota || r.nota || "—"}</div>
-            <div style={{ fontSize: 14, color: "#666", marginBottom: 14 }}>/ {r.mode === "senior" ? "5" : "10"}</div>
+            <div style={{ fontSize: 14, color: "#5E6383", marginBottom: 14 }}>/ {r.mode === "senior" ? "5" : "10"}</div>
             {r.mode === "senior" && r.classificacao && (
-              <div style={{ display: "inline-block", padding: "6px 20px", background: "rgba(237,28,36,0.15)", border: `1px solid ${S.red}`, borderRadius: 8, fontSize: 14, fontWeight: 700, color: "#fff", letterSpacing: 1 }}>{r.classificacao}</div>
+              <div style={{ display: "inline-block", padding: "6px 20px", background: "rgba(221,184,92,0.15)", border: `1px solid ${S.red}`, borderRadius: 8, fontSize: 14, fontWeight: 700, color: "#fff", letterSpacing: 1 }}>{r.classificacao}</div>
             )}
             {r.mode !== "senior" && (r.potencial || r.rendimento) && (
               <div style={{ display: "flex", gap: 12, justifyContent: "center" }}>
@@ -2332,8 +2332,8 @@ export default function Builder({ meshParams = null }) {
               { label: "GOLOS", value: r.golos, color: S.red },
               { label: "ASSIST.", value: r.assists, color: "#22c55e" },
             ].map(s => (
-              <div key={s.label} style={{ background: "#13121a", border: `1px solid ${S.border}`, borderRadius: 14, padding: "18px 0", textAlign: "center" }}>
-                <div style={{ fontSize: 13, color: "#888", textTransform: "uppercase", letterSpacing: 2, marginBottom: 8 }}>{s.label}</div>
+              <div key={s.label} style={{ background: "#161929", border: `1px solid ${S.border}`, borderRadius: 14, padding: "18px 0", textAlign: "center" }}>
+                <div style={{ fontSize: 13, color: "#5E6383", textTransform: "uppercase", letterSpacing: 2, marginBottom: 8 }}>{s.label}</div>
                 <div style={{ fontSize: 52, fontWeight: 900, color: s.color, lineHeight: 1 }}>{s.value || "—"}</div>
               </div>
             ))}
@@ -2345,9 +2345,9 @@ export default function Builder({ meshParams = null }) {
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, flex: 1, minHeight: 0 }}>
                 {seniorCats && Object.entries(seniorCats).map(([ck, cat]) => {
                   const avg = catAvgs[ck] || 0;
-                  const barColor = tapColor(avg) || "#3a3a42";
+                  const barColor = tapColor(avg) || "#383D5C";
                   return (
-                    <div key={ck} style={{ background: "#13121a", border: `1px solid ${S.border}`, borderRadius: 14, padding: "16px 16px 10px 16px" }}>
+                    <div key={ck} style={{ background: "#161929", border: `1px solid ${S.border}`, borderRadius: 14, padding: "16px 16px 10px 16px" }}>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 6 }}>
                         <span style={{ fontSize: 12, fontWeight: 800, color: barColor, textTransform: "uppercase", letterSpacing: 2 }}>{cat.label}</span>
                         <span style={{ fontSize: 28, fontWeight: 900, color: barColor, lineHeight: 1 }}>{avg || "—"}</span>
@@ -2357,14 +2357,14 @@ export default function Builder({ meshParams = null }) {
                       </div>
                       {cat.items.map((item, i) => {
                         const v = Number((r.cats || {})[`${ck}_${i}`] || 0);
-                        const vColor = v > 0 ? tapColor(v) : "#333";
+                        const vColor = v > 0 ? tapColor(v) : "#2A2E48";
                         return (
                           <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 5, gap: 5 }}>
                             <div style={{ display: "flex", alignItems: "center", gap: 7, minWidth: 0, flex: 1 }}>
-                              <div style={{ width: 6, height: 6, borderRadius: "50%", background: v > 0 ? vColor : "#2a2a2f", flexShrink: 0 }} />
-                              <span style={{ fontSize: 12, color: "#aaa", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item}</span>
+                              <div style={{ width: 6, height: 6, borderRadius: "50%", background: v > 0 ? vColor : "#2A2E48", flexShrink: 0 }} />
+                              <span style={{ fontSize: 12, color: "#A4A8C0", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item}</span>
                             </div>
-                            <span style={{ fontSize: 14, fontWeight: 700, color: v > 0 ? vColor : "#444", flexShrink: 0 }}>{v || "—"}</span>
+                            <span style={{ fontSize: 14, fontWeight: 700, color: v > 0 ? vColor : "#2A2E48", flexShrink: 0 }}>{v || "—"}</span>
                           </div>
                         );
                       })}
@@ -2376,24 +2376,24 @@ export default function Builder({ meshParams = null }) {
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
                 {[["avImediata","IMEDIATA"],["avMedioPrazo","MÉDIO PRAZO"],["avLongoPrazo","LONGO PRAZO"]].map(([k, l]) => {
                   const val = r[k] || 0;
-                  const vColor = val > 0 ? tapColor(val) : "#3a3a42";
+                  const vColor = val > 0 ? tapColor(val) : "#383D5C";
                   return (
-                    <div key={k} style={{ background: "#0b0a0f", border: `1px solid #2a2a2f`, borderRadius: 10, padding: "14px 8px", textAlign: "center" }}>
-                      <div style={{ fontSize: 11, color: "#888", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>{l}</div>
-                      <div style={{ fontSize: 48, fontWeight: 900, color: val > 0 ? vColor : "#3a3a42", lineHeight: 1 }}>{val || "—"}</div>
-                      <div style={{ fontSize: 11, color: "#666" }}>/ 5</div>
+                    <div key={k} style={{ background: "#0B0D1A", border: `1px solid #2A2E48`, borderRadius: 10, padding: "14px 8px", textAlign: "center" }}>
+                      <div style={{ fontSize: 11, color: "#5E6383", textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>{l}</div>
+                      <div style={{ fontSize: 48, fontWeight: 900, color: val > 0 ? vColor : "#383D5C", lineHeight: 1 }}>{val || "—"}</div>
+                      <div style={{ fontSize: 11, color: "#5E6383" }}>/ 5</div>
                     </div>
                   );
                 })}
               </div>
             </div>
           ) : (
-            <div style={{ background: "#13121a", border: `1px solid ${S.border}`, borderRadius: 16, padding: "20px 20px 12px 20px", marginBottom: 24, display: "flex", flexDirection: "column", alignItems: "center", flex: 1, minHeight: 0 }}>
-              <div style={{ fontSize: 12, color: "#888", textTransform: "uppercase", letterSpacing: 2, marginBottom: 6, alignSelf: "flex-start" }}>
+            <div style={{ background: "#161929", border: `1px solid ${S.border}`, borderRadius: 16, padding: "20px 20px 12px 20px", marginBottom: 24, display: "flex", flexDirection: "column", alignItems: "center", flex: 1, minHeight: 0 }}>
+              <div style={{ fontSize: 12, color: "#5E6383", textTransform: "uppercase", letterSpacing: 2, marginBottom: 6, alignSelf: "flex-start" }}>
                 ATRIBUTOS {posMeta && `· ${posMeta.label}`}
               </div>
               <div style={{ width: 460, height: 460 }}>
-                <ShareRadar labels={attrs} values={attrs.map(a => r.atr[a] || 0)} size={460} color={S.red} labelColor="#bbb" valueColor={S.red} gridColor="#3a3a42" />
+                <ShareRadar labels={attrs} values={attrs.map(a => r.atr[a] || 0)} size={460} color={S.red} labelColor="#A4A8C0" valueColor={S.red} gridColor="#383D5C" />
               </div>
             </div>
           )}
@@ -2406,7 +2406,7 @@ export default function Builder({ meshParams = null }) {
           )}
 
           {/* FOOTER */}
-          <div style={{ fontSize: 14, color: "#555", textAlign: "center", marginTop: "auto", paddingTop: 12 }}>
+          <div style={{ fontSize: 14, color: "#5E6383", textAlign: "center", marginTop: "auto", paddingTop: 12 }}>
             scouting.sportrail.pt
           </div>
         </div>
@@ -2419,12 +2419,12 @@ export default function Builder({ meshParams = null }) {
       {undoToast && (
         <div className="no-print" style={{
           position: "fixed", bottom: 24, left: "50%", transform: "translateX(-50%)",
-          background: "#1f1d28", border: "1px solid #3a3a42", borderRadius: 10,
+          background: "#1F2338", border: "1px solid #383D5C", borderRadius: 10,
           padding: "12px 18px", display: "flex", alignItems: "center", gap: 14,
           boxShadow: "0 8px 30px rgba(0,0,0,0.6)", zIndex: 9999, whiteSpace: "nowrap",
           animation: "slideUpCenter 0.2s ease-out"
         }}>
-          <span style={{ fontSize: 13, color: "#ccc" }}>
+          <span style={{ fontSize: 13, color: "#A4A8C0" }}>
             Relatório <strong style={{ color: "#fff" }}>{undoToast.report.nome || "Sem nome"}</strong> apagado
           </span>
           <button onClick={undoDelete} style={{
@@ -2438,7 +2438,7 @@ export default function Builder({ meshParams = null }) {
       {saveToast && (
         <div className="no-print" style={{
           position: "fixed", bottom: 24, right: 24,
-          background: "#1f1d28", border: "1px solid #22c55e", borderRadius: 10,
+          background: "#1F2338", border: "1px solid #22c55e", borderRadius: 10,
           padding: "10px 18px", fontSize: 13, color: "#22c55e", fontWeight: 600,
           boxShadow: "0 8px 30px rgba(0,0,0,0.6)", zIndex: 9999,
           animation: "slideUpRight 0.2s ease-out"
@@ -2466,8 +2466,8 @@ function TapRating({ label, value, onChange }) {
   return (
     <div style={{ marginBottom: 5, padding: "5px 0", borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
-        <span style={{ fontSize: 11, color: "#bbb", lineHeight: 1.4 }}>{label}</span>
-        <span style={{ fontSize: 12, fontWeight: 700, color: value ? tapColor(value) : "#555", flexShrink: 0, marginLeft: 8 }}>{value || "—"}</span>
+        <span style={{ fontSize: 11, color: "#A4A8C0", lineHeight: 1.4 }}>{label}</span>
+        <span style={{ fontSize: 12, fontWeight: 700, color: value ? tapColor(value) : "#5E6383", flexShrink: 0, marginLeft: 8 }}>{value || "—"}</span>
       </div>
       <div style={{ display: "flex", gap: 2 }}>
         {TAP_VALS.map(v => (
@@ -2485,7 +2485,7 @@ function TapRating({ label, value, onChange }) {
 }
 
 // ---------- v12: ShareRadar (SVG radar chart for share cards) ----------
-function ShareRadar({ labels, values, size = 280, color = "#ED1C24", labelColor = "#bbb", valueColor = "#ED1C24", gridColor = "#3a3a42" }) {
+function ShareRadar({ labels, values, size = 280, color = "#DDB85C", labelColor = "#A4A8C0", valueColor = "#DDB85C", gridColor = "#383D5C" }) {
   const N = labels.length;
   if (N < 3) return null;
 
@@ -2574,7 +2574,7 @@ function ShareRadar({ labels, values, size = 280, color = "#ED1C24", labelColor 
 function SharePitch({ selected, secondary, positions }) {
   const W = 316;
   const H = 410;
-  const line = "#4a4a52";
+  const line = "#383D5C";
 
   return (
     <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", display: "block" }}>
@@ -2594,7 +2594,7 @@ function SharePitch({ selected, secondary, positions }) {
         if (!isMain && !isSec) return null;
         const cx = 20 + p.x * (W - 40);
         const cy = 20 + p.y * (H - 40);
-        const fill = isMain ? "#ED1C24" : "#eab308";
+        const fill = isMain ? "#DDB85C" : "#eab308";
         return (
           <g key={p.code}>
             <circle cx={cx} cy={cy} r={22} fill={fill} stroke="#fff" strokeWidth={2.5} />
@@ -2610,12 +2610,12 @@ function SharePitch({ selected, secondary, positions }) {
 function Pitch({ selected, secondary, onSelect, positions }) {
   const W = 340;
   const H = 440;
-  const line = "#4a4a52";
+  const line = "#383D5C";
   const grass1 = "#0f1a12";
   const grass2 = "#0c1610";
 
   return (
-    <div style={{ background: "#1a1a1f", borderRadius: 10, padding: 12, border: "1px solid #2a2a2f" }}>
+    <div style={{ background: "#1F2338", borderRadius: 10, padding: 12, border: "1px solid #2A2E48" }}>
       <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", maxWidth: W, display: "block", margin: "0 auto" }}>
         <defs>
           <pattern id="sprGrass" width={W} height={H/8} patternUnits="userSpaceOnUse">
@@ -2638,8 +2638,8 @@ function Pitch({ selected, secondary, onSelect, positions }) {
         <circle cx={W/2} cy={H - 38} r="1.5" fill={line} />
         {/* Attack direction arrow */}
         <g opacity="0.3">
-          <line x1={W - 24} y1={H - 40} x2={W - 24} y2="40" stroke="#888" strokeWidth="1" strokeDasharray="2 2" />
-          <polygon points={`${W-28},48 ${W-20},48 ${W-24},38`} fill="#888" />
+          <line x1={W - 24} y1={H - 40} x2={W - 24} y2="40" stroke="#5E6383" strokeWidth="1" strokeDasharray="2 2" />
+          <polygon points={`${W-28},48 ${W-20},48 ${W-24},38`} fill="#5E6383" />
         </g>
 
         {(positions || FORMACAO_POSITIONS).map(p => {
@@ -2647,8 +2647,8 @@ function Pitch({ selected, secondary, onSelect, positions }) {
           const cy = 20 + p.y * (H - 40);
           const isMain = p.code === selected;
           const isSec = p.code === secondary;
-          const fill = isMain ? "#ED1C24" : (isSec ? "#eab308" : "#2a2a2f");
-          const stroke = isMain ? "#fff" : (isSec ? "#fff" : "#555");
+          const fill = isMain ? "#DDB85C" : (isSec ? "#eab308" : "#2A2E48");
+          const stroke = isMain ? "#fff" : (isSec ? "#fff" : "#5E6383");
           const rad = isMain ? 18 : (isSec ? 16 : 13);
           return (
             <g key={p.code} style={{ cursor: "pointer" }} onClick={() => onSelect(p.code)}>
@@ -2658,8 +2658,8 @@ function Pitch({ selected, secondary, onSelect, positions }) {
           );
         })}
       </svg>
-      <div style={{ textAlign: "center", fontSize: 10, color: "#888", marginTop: 6, display: "flex", justifyContent: "center", gap: 14 }}>
-        <span><span style={{ display: "inline-block", width: 8, height: 8, borderRadius: "50%", background: "#ED1C24", marginRight: 4, verticalAlign: "middle" }} />Principal</span>
+      <div style={{ textAlign: "center", fontSize: 10, color: "#5E6383", marginTop: 6, display: "flex", justifyContent: "center", gap: 14 }}>
+        <span><span style={{ display: "inline-block", width: 8, height: 8, borderRadius: "50%", background: "#DDB85C", marginRight: 4, verticalAlign: "middle" }} />Principal</span>
         <span><span style={{ display: "inline-block", width: 8, height: 8, borderRadius: "50%", background: "#eab308", marginRight: 4, verticalAlign: "middle" }} />Secundária</span>
       </div>
     </div>
@@ -2798,8 +2798,8 @@ function generateNativePDF(jsPDF, r, attrs, dims, media, autoNota, age, contract
   const M = 14; // margin
 
   // Sportrail colors
-  const RED = [237, 28, 36];
-  const BG = [11, 10, 15];
+  const RED = [221, 184, 92];
+  const BG = [11, 13, 26];
   const PANEL = [19, 18, 26];
   const BORDER = [42, 42, 47];
   const TEXT = [245, 245, 245];
@@ -2807,7 +2807,7 @@ function generateNativePDF(jsPDF, r, attrs, dims, media, autoNota, age, contract
   const DIM = [102, 102, 102];
   const GREEN = [34, 197, 94];
   const YELLOW = [234, 179, 8];
-  const REDLT = [239, 68, 68];
+  const REDLT = [196, 104, 104];
   const pdfSliderColor = (v) => v >= 8 ? GREEN : v >= 5 ? YELLOW : v > 0 ? REDLT : BORDER;
   const pdfTapColor = (v) => v >= 4 ? GREEN : v >= 2.5 ? YELLOW : v > 0 ? REDLT : BORDER;
 
@@ -3349,16 +3349,16 @@ function generateNativePDF(jsPDF, r, attrs, dims, media, autoNota, age, contract
 function buildPrintHTML(r, attrs, dims, radarData, barData, media, decObj) {
   const A4_W = 794; // px at 96dpi for 210mm
   const pad = 40;
-  const RED = "#ED1C24";
-  const BG = "#0B0A0F";
-  const PANEL = "#13121a";
-  const BORDER = "#2a2a2f";
+  const RED = "#DDB85C";
+  const BG = "#0B0D1A";
+  const PANEL = "#161929";
+  const BORDER = "#2A2E48";
 
   const el = document.createElement("div");
   el.style.cssText = `
     width: ${A4_W}px;
     background: ${BG};
-    color: #f5f5f5;
+    color: #E8EAF2;
     font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
     padding: ${pad}px;
     box-sizing: border-box;
@@ -3373,7 +3373,7 @@ function buildPrintHTML(r, attrs, dims, radarData, barData, media, decObj) {
 
   const field = (label, value) => `
     <div style="margin-bottom:8px;">
-      <div style="font-size:8px;text-transform:uppercase;color:#999;letter-spacing:0.5px;margin-bottom:2px;">${esc(label)}</div>
+      <div style="font-size:8px;text-transform:uppercase;color:#A4A8C0;letter-spacing:0.5px;margin-bottom:2px;">${esc(label)}</div>
       <div style="font-size:11px;color:#fff;padding:6px 8px;background:${PANEL};border:1px solid ${BORDER};border-radius:4px;min-height:14px;">${esc(value) || "—"}</div>
     </div>`;
 
@@ -3381,7 +3381,7 @@ function buildPrintHTML(r, attrs, dims, radarData, barData, media, decObj) {
   const header = `
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;border-bottom:2px solid ${RED};padding-bottom:12px;">
       <div style="font-size:22px;font-weight:900;color:${RED};letter-spacing:1.5px;">SPORTRAIL</div>
-      <div style="font-size:10px;color:#888;text-transform:uppercase;letter-spacing:1px;">Scouting Report</div>
+      <div style="font-size:10px;color:#5E6383;text-transform:uppercase;letter-spacing:1px;">Scouting Report</div>
     </div>`;
 
   // --- PLAYER TOP CARD ---
@@ -3395,13 +3395,13 @@ function buildPrintHTML(r, attrs, dims, radarData, barData, media, decObj) {
         <td style="width:110px;vertical-align:top;padding:0;">${photoHTML}</td>
         <td style="vertical-align:top;padding:0 0 0 14px;">
           <div style="font-size:22px;font-weight:900;color:#fff;line-height:1.1;margin-bottom:4px;">${esc(r.nome) || "—"}</div>
-          <div style="font-size:12px;color:#bbb;margin-bottom:3px;">${[r.clube, r.pos, r.pe].filter(Boolean).map(esc).join(" · ") || "—"}</div>
-          <div style="font-size:10px;color:#888;">${[r.nacionalidade, r.altura && `${r.altura}cm`, r.peso && `${r.peso}kg`].filter(Boolean).map(esc).join(" · ") || "—"}</div>
+          <div style="font-size:12px;color:#A4A8C0;margin-bottom:3px;">${[r.clube, r.pos, r.pe].filter(Boolean).map(esc).join(" · ") || "—"}</div>
+          <div style="font-size:10px;color:#5E6383;">${[r.nacionalidade, r.altura && `${r.altura}cm`, r.peso && `${r.peso}kg`].filter(Boolean).map(esc).join(" · ") || "—"}</div>
         </td>
         <td style="width:100px;vertical-align:top;text-align:center;padding:0;border-left:1px solid ${BORDER};">
-          <div style="font-size:9px;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;">Nota</div>
+          <div style="font-size:9px;color:#5E6383;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;">Nota</div>
           <div style="font-size:52px;font-weight:900;color:${RED};line-height:1;">${esc(r.nota) || "—"}</div>
-          <div style="font-size:9px;color:#666;">/ 10</div>
+          <div style="font-size:9px;color:#5E6383;">/ 10</div>
         </td>
       </tr>
     </table>`;
@@ -3461,7 +3461,7 @@ function buildPrintHTML(r, attrs, dims, radarData, barData, media, decObj) {
     return `
       <div style="margin-bottom:6px;">
         <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:3px;">
-          <span style="color:#ddd;">${esc(a)}</span>
+          <span style="color:#A4A8C0;">${esc(a)}</span>
           <span style="color:${RED};font-weight:700;">${val}</span>
         </div>
         <div style="height:6px;background:${PANEL};border-radius:3px;overflow:hidden;">
@@ -3476,7 +3476,7 @@ function buildPrintHTML(r, attrs, dims, radarData, barData, media, decObj) {
       <table style="width:100%;border-collapse:collapse;"><tr>
         <td style="width:100%;vertical-align:top;padding:0;">
           ${attrRows}
-          <div style="font-size:10px;color:#999;margin-top:8px;border-top:1px solid ${BORDER};padding-top:6px;">
+          <div style="font-size:10px;color:#A4A8C0;margin-top:8px;border-top:1px solid ${BORDER};padding-top:6px;">
             Média: <span style="color:${RED};font-weight:700;font-size:14px;">${media}</span>
           </div>
         </td>
@@ -3490,7 +3490,7 @@ function buildPrintHTML(r, attrs, dims, radarData, barData, media, decObj) {
     return `
       <div style="margin-bottom:6px;">
         <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:3px;">
-          <span style="color:#ddd;">${esc(d)}</span>
+          <span style="color:#A4A8C0;">${esc(d)}</span>
           <span style="color:${RED};font-weight:700;">${val}</span>
         </div>
         <div style="height:6px;background:${PANEL};border-radius:3px;overflow:hidden;">
@@ -3508,11 +3508,11 @@ function buildPrintHTML(r, attrs, dims, radarData, barData, media, decObj) {
   // --- PONTOS FORTES / LACUNAS ---
   const fortesHTML = (r.fortes || []).filter(Boolean).map(f =>
     `<div style="font-size:11px;color:#fff;margin-bottom:4px;"><span style="color:#22c55e;margin-right:6px;">▸</span>${esc(f)}</div>`
-  ).join("") || `<div style="font-size:10px;color:#666;">—</div>`;
+  ).join("") || `<div style="font-size:10px;color:#5E6383;">—</div>`;
 
   const lacunasHTML = (r.lacunas || []).filter(Boolean).map(f =>
-    `<div style="font-size:11px;color:#fff;margin-bottom:4px;"><span style="color:#ef4444;margin-right:6px;">▸</span>${esc(f)}</div>`
-  ).join("") || `<div style="font-size:10px;color:#666;">—</div>`;
+    `<div style="font-size:11px;color:#fff;margin-bottom:4px;"><span style="color:#C46868;margin-right:6px;">▸</span>${esc(f)}</div>`
+  ).join("") || `<div style="font-size:10px;color:#5E6383;">—</div>`;
 
   const forcasBlock = `
     <div style="margin-bottom:16px;">
@@ -3522,7 +3522,7 @@ function buildPrintHTML(r, attrs, dims, radarData, barData, media, decObj) {
           ${fortesHTML}
         </td>
         <td style="width:50%;vertical-align:top;padding:0 0 0 8px;">
-          <div style="font-size:10px;font-weight:800;color:#ef4444;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;border-bottom:1px solid #ef4444;padding-bottom:4px;">Lacunas</div>
+          <div style="font-size:10px;font-weight:800;color:#C46868;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;border-bottom:1px solid #C46868;padding-bottom:4px;">Lacunas</div>
           ${lacunasHTML}
         </td>
       </tr></table>
@@ -3532,7 +3532,7 @@ function buildPrintHTML(r, attrs, dims, radarData, barData, media, decObj) {
   const parecerBlock = r.parecer ? `
     <div style="margin-bottom:16px;">
       ${h2("Parecer")}
-      <div><div style="font-size:8px;text-transform:uppercase;color:#999;margin-bottom:3px;">Parecer final</div><div style="font-size:11px;color:#fff;background:${PANEL};border:1px solid ${BORDER};border-radius:4px;padding:8px;line-height:1.4;">${esc(r.parecer)}</div></div>
+      <div><div style="font-size:8px;text-transform:uppercase;color:#A4A8C0;margin-bottom:3px;">Parecer final</div><div style="font-size:11px;color:#fff;background:${PANEL};border:1px solid ${BORDER};border-radius:4px;padding:8px;line-height:1.4;">${esc(r.parecer)}</div></div>
     </div>` : "";
 
   // --- DECISÃO ---
@@ -3543,7 +3543,7 @@ function buildPrintHTML(r, attrs, dims, radarData, barData, media, decObj) {
 
   // --- FOOTER ---
   const footer = `
-    <div style="margin-top:16px;padding-top:10px;border-top:1px solid ${BORDER};display:flex;justify-content:space-between;font-size:9px;color:#666;">
+    <div style="margin-top:16px;padding-top:10px;border-top:1px solid ${BORDER};display:flex;justify-content:space-between;font-size:9px;color:#5E6383;">
       <span>${esc(r.scout) || "—"}</span>
       <span>${esc(r.dataRel) || "—"}</span>
       <span>sportrail.pt</span>
@@ -3559,14 +3559,14 @@ const menuBtn = {
   fontSize: 12, borderBottom: `1px solid ${S.border}`
 };
 const menuBtnTitle = { fontSize: 12, fontWeight: 600, marginBottom: 2 };
-const menuBtnSub = { fontSize: 10, color: "#888" };
+const menuBtnSub = { fontSize: 10, color: "#5E6383" };
 
 // ---------- v5 comparison helpers ----------
 const headerCell = {
   padding: "16px 14px",
-  background: "#1a1a1f",
+  background: "#1F2338",
   fontSize: 11,
-  color: "#888",
+  color: "#5E6383",
   textTransform: "uppercase",
   letterSpacing: 0.5,
   fontWeight: 700
@@ -3581,8 +3581,8 @@ const compareRowStyle = {
 const compareLabelCell = {
   padding: "12px 14px",
   fontSize: 12,
-  color: "#999",
-  background: "#13121a",
+  color: "#A4A8C0",
+  background: "#161929",
   display: "flex",
   alignItems: "center",
   textTransform: "uppercase",
@@ -3627,7 +3627,7 @@ function CompareRow({ label, values, numeric = false, highest = false, big = fal
         if (numeric && highest && hasDiff) {
           const n = Number(v) || 0;
           if (n === max && max > 0) { color = "#22c55e"; weight = 800; }
-          else if (n === min) { color = "#ef4444"; }
+          else if (n === min) { color = "#C46868"; }
         }
         if (typeof v === "object" && v !== null && v.color) {
           return (

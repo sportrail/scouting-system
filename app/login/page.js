@@ -7,12 +7,12 @@ import { createClient } from "../../lib/supabase/client";
 // Flow: email → OTP code (shouldCreateUser: false — only pre-registered users)
 
 const S = {
-  bg: "#0B0A0F",
-  panel: "#13121a",
-  border: "#2a2a2f",
-  red: "#ED1C24",
-  text: "#f5f5f5",
-  muted: "#888",
+  bg: "#0B0D1A",
+  panel: "#161929",
+  border: "#2A2E48",
+  red: "#DDB85C",
+  text: "#E8EAF2",
+  muted: "#5E6383",
   green: "#22c55e",
 };
 
@@ -141,7 +141,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={status === "verifying"}
-                style={{ ...btnStyle, background: status === "verifying" ? "#555" : S.red, cursor: status === "verifying" ? "wait" : "pointer" }}
+                style={{ ...btnStyle, background: status === "verifying" ? "#5E6383" : S.red, cursor: status === "verifying" ? "wait" : "pointer" }}
               >
                 {status === "verifying" ? "A verificar..." : "Entrar"}
               </button>
@@ -179,19 +179,19 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isBusy}
-              style={{ ...btnStyle, background: isBusy ? "#555" : S.red, cursor: isBusy ? "wait" : "pointer" }}
+              style={{ ...btnStyle, background: isBusy ? "#5E6383" : S.red, cursor: isBusy ? "wait" : "pointer" }}
             >
               {status === "sending" ? "A enviar..." : "Receber código de acesso"}
             </button>
           </form>
         )}
 
-        <div style={{ fontSize: 11, color: "#555", textAlign: "center", marginTop: 28, lineHeight: 1.5 }}>
+        <div style={{ fontSize: 11, color: "#5E6383", textAlign: "center", marginTop: 28, lineHeight: 1.5 }}>
           Ao entrares, concordas com os termos de<br/>utilização da Sportrail.
         </div>
       </div>
 
-      <div style={{ fontSize: 11, color: "#444", marginTop: 20 }}>
+      <div style={{ fontSize: 11, color: "#2A2E48", marginTop: 20 }}>
         scouting.sportrail.pt
       </div>
     </div>
@@ -225,7 +225,7 @@ const btnStyle = {
 
 const errorBox = {
   padding: "10px 12px",
-  background: "rgba(237,28,36,0.1)",
+  background: "rgba(221,184,92,0.1)",
   border: `1px solid ${S.red}`,
   borderRadius: 8,
   color: S.red,

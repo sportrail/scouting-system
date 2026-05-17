@@ -50,7 +50,7 @@ export const metadata = {
 };
 
 export const viewport = {
-  themeColor: "#0B0A0F",
+  themeColor: "#0B0D1A",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -66,18 +66,62 @@ export default function RootLayout({ children }) {
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="S³ Scouting" />
 
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700&family=DM+Serif+Display&family=JetBrains+Mono:wght@400;500&display=swap"
+        />
+
         <style>{`
+          :root {
+            --font-display: "DM Serif Display", "Times New Roman", serif;
+            --font-body: "Bricolage Grotesque", system-ui, -apple-system, sans-serif;
+            --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+          }
           * { box-sizing: border-box; }
           html, body {
             margin: 0;
             padding: 0;
-            background: #0B0A0F;
-            color: #f5f5f5;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #0B0D1A;
+            color: #E8EAF2;
+            font-family: var(--font-body);
+            letter-spacing: -0.005em;
+            line-height: 1.65;
+            font-feature-settings: "liga" 1, "clig" 1;
             -webkit-font-smoothing: antialiased;
             -webkit-tap-highlight-color: transparent;
             overscroll-behavior-y: none;
           }
+
+          /* Glow dourado ambiente + grão subtil */
+          body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background:
+              radial-gradient(60% 50% at 50% 0%, rgba(221, 184, 92, 0.10) 0%, rgba(221, 184, 92, 0.04) 35%, transparent 70%),
+              radial-gradient(40% 40% at 85% 15%, rgba(221, 184, 92, 0.05) 0%, transparent 60%);
+          }
+          body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+          }
+          .s3-shell, .s3-mobile-topbar, .s3-sidebar-overlay { position: relative; z-index: 1; }
+
+          h1, h2, h3 {
+            font-family: var(--font-display);
+            letter-spacing: 0;
+            line-height: 1.2;
+          }
+          code, pre, .s3-mono { font-family: var(--font-mono); }
 
           input, select, textarea {
             font-size: 16px;
@@ -91,8 +135,8 @@ export default function RootLayout({ children }) {
           .s3-sidebar {
             width: 280px;
             flex-shrink: 0;
-            border-right: 1px solid #2a2a2f;
-            background: #0B0A0F;
+            border-right: 1px solid #2A2E48;
+            background: #0B0D1A;
           }
 
           .s3-main-area {
@@ -150,18 +194,18 @@ export default function RootLayout({ children }) {
               align-items: center;
               gap: 10px;
               padding: calc(12px + env(safe-area-inset-top)) 14px 12px 14px;
-              background: rgba(11,10,15,0.96);
+              background: rgba(11,13,26,0.96);
               backdrop-filter: blur(8px);
               -webkit-backdrop-filter: blur(8px);
-              border-bottom: 1px solid #2a2a2f;
+              border-bottom: 1px solid #2A2E48;
               position: sticky;
               top: 0;
               z-index: 50;
             }
             .s3-hamburger {
               background: transparent;
-              border: 1px solid #2a2a2f;
-              color: #f5f5f5;
+              border: 1px solid #2A2E48;
+              color: #E8EAF2;
               width: 42px;
               height: 42px;
               border-radius: 8px;
@@ -184,7 +228,7 @@ export default function RootLayout({ children }) {
             .s3-mobile-brand {
               font-size: 11px;
               font-weight: 900;
-              color: #ED1C24;
+              color: #DDB85C;
               letter-spacing: 1.5px;
             }
 
@@ -245,7 +289,7 @@ export default function RootLayout({ children }) {
           }
         `}</style>
       </head>
-      <body style={{ margin: 0, padding: 0, background: "#0B0A0F" }}>
+      <body style={{ margin: 0, padding: 0, background: "#0B0D1A" }}>
         {children}
         <Analytics />
       </body>

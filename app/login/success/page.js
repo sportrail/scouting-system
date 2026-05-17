@@ -10,12 +10,12 @@ import { createClient } from "../../../lib/supabase/client";
 // that confirms auth works. Parte 2 will wire this to the main app.
 
 const S = {
-  bg: "#0B0A0F",
-  panel: "#13121a",
-  border: "#2a2a2f",
-  red: "#ED1C24",
-  text: "#f5f5f5",
-  muted: "#888",
+  bg: "#0B0D1A",
+  panel: "#161929",
+  border: "#2A2E48",
+  red: "#DDB85C",
+  text: "#E8EAF2",
+  muted: "#5E6383",
   green: "#22c55e",
 };
 
@@ -106,7 +106,7 @@ export default function LoginSuccessPage() {
         )}
       </div>
 
-      <div style={{ fontSize: 11, color: "#444", marginTop: 20 }}>
+      <div style={{ fontSize: 11, color: "#2A2E48", marginTop: 20 }}>
         scouting.sportrail.pt
       </div>
     </div>

@@ -6,13 +6,13 @@ import { createClient } from "../../lib/supabase/client";
 // Painel do Formador — lista relatórios dos formandos, detalhe + PDF + feedback por email.
 
 const S = {
-  bg: "#0B0A0F",
-  panel: "#13121a",
-  border: "#2a2a2f",
-  red: "#ED1C24",
-  text: "#f5f5f5",
-  muted: "#888",
-  dim: "#555",
+  bg: "#0B0D1A",
+  panel: "#161929",
+  border: "#2A2E48",
+  red: "#DDB85C",
+  text: "#E8EAF2",
+  muted: "#5E6383",
+  dim: "#5E6383",
   green: "#22c55e",
   yellow: "#eab308",
 };
@@ -20,11 +20,11 @@ const S = {
 const DECISIONS = {
   contratar:      { label: "CONTRATAR",     color: S.green },
   observar:       { label: "OBSERVAR",      color: S.yellow },
-  sem_interesse:  { label: "SEM INTERESSE", color: "#ef4444" },
+  sem_interesse:  { label: "SEM INTERESSE", color: "#C46868" },
   "CONTRATAR JÁ": { label: "CONTRATAR JÁ", color: S.green },
   "CONTRATAR":    { label: "CONTRATAR",     color: S.green },
   "MONITORIZAR":  { label: "MONITORIZAR",   color: S.yellow },
-  "REJEITAR":     { label: "REJEITAR",      color: "#ef4444" },
+  "REJEITAR":     { label: "REJEITAR",      color: "#C46868" },
 };
 
 function loadLib(src) {
@@ -42,8 +42,8 @@ function generateFormadorPDF(jsPDF, row, feedback) {
   const M = 14;
   const contentW = PAGE_W - 2 * M;
 
-  const RED = [237, 28, 36];
-  const BG  = [11, 10, 15];
+  const RED = [221, 184, 92];
+  const BG  = [11, 13, 26];
   const PNL = [19, 18, 26];
   const BDR = [42, 42, 47];
   const TXT = [245, 245, 245];
@@ -133,7 +133,7 @@ function generateFormadorPDF(jsPDF, row, feedback) {
   // Decision + P/R
   const dec = DECISIONS[d.decisao];
   if (dec) {
-    doc.setFillColor(...(dec.color === S.green ? GRN : dec.color === S.yellow ? YLW : [239, 68, 68]));
+    doc.setFillColor(...(dec.color === S.green ? GRN : dec.color === S.yellow ? YLW : [196, 104, 104]));
     doc.roundedRect(M + 32, y + 1, 44, 7, 1.5, 1.5, "F");
     doc.setFontSize(8);
     doc.setTextColor(255, 255, 255);
@@ -470,7 +470,7 @@ export default function FormadorPage() {
     <div style={{ minHeight: "100vh", background: S.bg, color: S.text, fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}>
 
       {/* HEADER */}
-      <header style={{ borderBottom: `1px solid ${S.border}`, padding: "14px 24px", background: "rgba(11,10,15,0.97)", backdropFilter: "blur(8px)", position: "sticky", top: 0, zIndex: 10, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <header style={{ borderBottom: `1px solid ${S.border}`, padding: "14px 24px", background: "rgba(11,13,26,0.97)", backdropFilter: "blur(8px)", position: "sticky", top: 0, zIndex: 10, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <div style={{ color: S.red, fontSize: 24, fontWeight: 900, letterSpacing: 2 }}>S³</div>
           <div style={{ fontSize: 12, color: S.muted, letterSpacing: 1, fontWeight: 700 }}>PAINEL DO FORMADOR</div>
@@ -485,7 +485,7 @@ export default function FormadorPage() {
         {loading && <div style={{ textAlign: "center", color: S.muted, marginTop: 60 }}>A carregar…</div>}
 
         {error && (
-          <div style={{ marginTop: 40, padding: "16px 20px", background: "rgba(237,28,36,0.08)", border: `1px solid ${S.red}`, borderRadius: 10, color: "#f87171", fontSize: 13, lineHeight: 1.6 }}>
+          <div style={{ marginTop: 40, padding: "16px 20px", background: "rgba(221,184,92,0.08)", border: `1px solid ${S.red}`, borderRadius: 10, color: "#C46868", fontSize: 13, lineHeight: 1.6 }}>
             {error}
           </div>
         )}
@@ -518,7 +518,7 @@ export default function FormadorPage() {
               <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
                 {[{ code: "all", name: "Todos" }, ...courses].map(c => (
                   <button key={c.code} onClick={() => setActiveCourse(c.code)}
-                    style={{ padding: "7px 12px", borderRadius: 6, border: `1px solid ${activeCourse === c.code ? S.red : S.border}`, background: activeCourse === c.code ? "rgba(237,28,36,0.15)" : "transparent", color: activeCourse === c.code ? S.red : S.muted, fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
+                    style={{ padding: "7px 12px", borderRadius: 6, border: `1px solid ${activeCourse === c.code ? S.red : S.border}`, background: activeCourse === c.code ? "rgba(221,184,92,0.15)" : "transparent", color: activeCourse === c.code ? S.red : S.muted, fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
                     {c.code === "all" ? "Todos" : c.code}
                   </button>
                 ))}
@@ -550,7 +550,7 @@ export default function FormadorPage() {
                         <tr key={row.id}
                           onClick={() => openDetail(row)}
                           style={{ borderBottom: i < filtered.length - 1 ? `1px solid ${S.border}` : "none", background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.02)", cursor: "pointer" }}
-                          onMouseEnter={e => e.currentTarget.style.background = "rgba(237,28,36,0.06)"}
+                          onMouseEnter={e => e.currentTarget.style.background = "rgba(221,184,92,0.06)"}
                           onMouseLeave={e => e.currentTarget.style.background = i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.02)"}
                         >
                           <td style={{ padding: "10px 14px", fontSize: 11, color: S.muted, maxWidth: 160, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{row.student_email || "—"}</td>
@@ -631,7 +631,7 @@ export default function FormadorPage() {
                   value={grade}
                   onChange={e => setGrade(e.target.value)}
                   placeholder="ex: 15"
-                  style={{ width: "100%", background: "#1a1a22", border: `1px solid ${S.border}`, color: S.text, padding: "10px 12px", borderRadius: 6, fontSize: 22, fontWeight: 900, fontFamily: "inherit", outline: "none", marginBottom: 14, boxSizing: "border-box" }}
+                  style={{ width: "100%", background: "#1F2338", border: `1px solid ${S.border}`, color: S.text, padding: "10px 12px", borderRadius: 6, fontSize: 22, fontWeight: 900, fontFamily: "inherit", outline: "none", marginBottom: 14, boxSizing: "border-box" }}
                 />
 
                 <label style={{ fontSize: 11, color: S.muted, display: "block", marginBottom: 6 }}>Comentário (opcional)</label>
@@ -640,7 +640,7 @@ export default function FormadorPage() {
                   onChange={e => setFbComment(e.target.value)}
                   placeholder="Escreve um comentário que será enviado ao aluno por email…"
                   rows={4}
-                  style={{ width: "100%", background: "#1a1a22", border: `1px solid ${S.border}`, color: S.text, padding: "10px 12px", borderRadius: 6, fontSize: 13, fontFamily: "inherit", outline: "none", resize: "vertical", boxSizing: "border-box", marginBottom: 14 }}
+                  style={{ width: "100%", background: "#1F2338", border: `1px solid ${S.border}`, color: S.text, padding: "10px 12px", borderRadius: 6, fontSize: 13, fontFamily: "inherit", outline: "none", resize: "vertical", boxSizing: "border-box", marginBottom: 14 }}
                 />
 
                 {sendResult === "ok" && (
@@ -649,7 +649,7 @@ export default function FormadorPage() {
                   </div>
                 )}
                 {sendResult === "error" && (
-                  <div style={{ marginBottom: 12, padding: "10px 14px", background: "rgba(237,28,36,0.1)", border: `1px solid ${S.red}`, borderRadius: 8, color: "#f87171", fontSize: 13 }}>
+                  <div style={{ marginBottom: 12, padding: "10px 14px", background: "rgba(221,184,92,0.1)", border: `1px solid ${S.red}`, borderRadius: 8, color: "#C46868", fontSize: 13 }}>
                     ⚠ {sendMsg}
                   </div>
                 )}
@@ -657,7 +657,7 @@ export default function FormadorPage() {
                 <button
                   onClick={handleSendFeedback}
                   disabled={sending}
-                  style={{ width: "100%", padding: "12px", background: sending ? "#333" : S.red, color: "#fff", border: "none", borderRadius: 8, fontSize: 14, fontWeight: 700, cursor: sending ? "wait" : "pointer", fontFamily: "inherit" }}
+                  style={{ width: "100%", padding: "12px", background: sending ? "#2A2E48" : S.red, color: "#fff", border: "none", borderRadius: 8, fontSize: 14, fontWeight: 700, cursor: sending ? "wait" : "pointer", fontFamily: "inherit" }}
                 >
                   {sending ? "A enviar…" : feedbackMap[detailRow.id]?.grade != null ? "Atualizar e reenviar feedback" : "Enviar feedback ao aluno"}
                 </button>
@@ -683,15 +683,15 @@ function DetailContent({ row, feedback }) {
 
   const Block = ({ label, value }) => (
     <div style={{ marginBottom: 10 }}>
-      <div style={{ fontSize: 10, color: "#555", textTransform: "uppercase", letterSpacing: 1, marginBottom: 3 }}>{label}</div>
-      <div style={{ fontSize: 13, color: S.text, background: "#0d0c13", border: `1px solid ${S.border}`, borderRadius: 6, padding: "6px 10px" }}>{value || "—"}</div>
+      <div style={{ fontSize: 10, color: "#5E6383", textTransform: "uppercase", letterSpacing: 1, marginBottom: 3 }}>{label}</div>
+      <div style={{ fontSize: 13, color: S.text, background: "#0B0D1A", border: `1px solid ${S.border}`, borderRadius: 6, padding: "6px 10px" }}>{value || "—"}</div>
     </div>
   );
 
   const TextBlock = ({ label, value }) => value ? (
     <div style={{ marginBottom: 14 }}>
-      <div style={{ fontSize: 10, color: "#555", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>{label}</div>
-      <div style={{ fontSize: 13, color: S.text, background: "#0d0c13", border: `1px solid ${S.border}`, borderRadius: 6, padding: "10px 12px", lineHeight: 1.6, whiteSpace: "pre-wrap" }}>{value}</div>
+      <div style={{ fontSize: 10, color: "#5E6383", textTransform: "uppercase", letterSpacing: 1, marginBottom: 6 }}>{label}</div>
+      <div style={{ fontSize: 13, color: S.text, background: "#0B0D1A", border: `1px solid ${S.border}`, borderRadius: 6, padding: "10px 12px", lineHeight: 1.6, whiteSpace: "pre-wrap" }}>{value}</div>
     </div>
   ) : null;
 
@@ -699,7 +699,7 @@ function DetailContent({ row, feedback }) {
     <div>
       {/* ── Avaliação global ── */}
       <div style={{ display: "flex", gap: 12, marginBottom: 4, alignItems: "stretch" }}>
-        <div style={{ background: "#0d0c13", border: `2px solid ${S.red}`, borderRadius: 10, padding: "12px 20px", textAlign: "center", minWidth: 70 }}>
+        <div style={{ background: "#0B0D1A", border: `2px solid ${S.red}`, borderRadius: 10, padding: "12px 20px", textAlign: "center", minWidth: 70 }}>
           <div style={{ fontSize: 10, color: S.muted, textTransform: "uppercase", letterSpacing: 1 }}>Nota</div>
           <div style={{ fontSize: 38, fontWeight: 900, color: S.red, lineHeight: 1.1 }}>{d.nota || "—"}</div>
         </div>
@@ -708,7 +708,7 @@ function DetailContent({ row, feedback }) {
             <div style={{ padding: "8px 14px", background: "rgba(0,0,0,0.3)", border: `1px solid ${dec.color}`, borderRadius: 8, fontSize: 13, fontWeight: 700, color: dec.color }}>{dec.label}</div>
           )}
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-            {d.potencial && <span style={{ padding: "5px 10px", background: "rgba(237,28,36,0.15)", border: `1px solid ${S.red}`, borderRadius: 6, fontSize: 11, fontWeight: 700, color: S.red }}>P: {d.potencial}</span>}
+            {d.potencial && <span style={{ padding: "5px 10px", background: "rgba(221,184,92,0.15)", border: `1px solid ${S.red}`, borderRadius: 6, fontSize: 11, fontWeight: 700, color: S.red }}>P: {d.potencial}</span>}
             {d.rendimento && <span style={{ padding: "5px 10px", background: "rgba(234,179,8,0.15)", border: `1px solid ${S.yellow}`, borderRadius: 6, fontSize: 11, fontWeight: 700, color: S.yellow }}>R: {d.rendimento}</span>}
           </div>
           <div style={{ fontSize: 11, color: S.muted }}>Scout: <strong style={{ color: S.text }}>{d.scout || "—"}</strong> · {d.dataRel || "—"}</div>
@@ -762,7 +762,7 @@ function DetailContent({ row, feedback }) {
           {Object.entries(d.dim).map(([k, v]) => (
             <div key={k} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
               <div style={{ fontSize: 11, color: S.muted, minWidth: 130 }}>{k}</div>
-              <div style={{ flex: 1, height: 4, background: "#2a2a2f", borderRadius: 2, overflow: "hidden" }}>
+              <div style={{ flex: 1, height: 4, background: "#2A2E48", borderRadius: 2, overflow: "hidden" }}>
                 <div style={{ height: "100%", width: `${(Number(v) / 10) * 100}%`, background: S.red, borderRadius: 2 }} />
               </div>
               <div style={{ fontSize: 12, fontWeight: 700, color: S.text, minWidth: 24, textAlign: "right" }}>{v || 0}</div>
@@ -776,7 +776,7 @@ function DetailContent({ row, feedback }) {
           {Object.entries(d.atr).map(([k, v]) => (
             <div key={k} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
               <div style={{ fontSize: 11, color: S.muted, minWidth: 130 }}>{k}</div>
-              <div style={{ flex: 1, height: 4, background: "#2a2a2f", borderRadius: 2, overflow: "hidden" }}>
+              <div style={{ flex: 1, height: 4, background: "#2A2E48", borderRadius: 2, overflow: "hidden" }}>
                 <div style={{ height: "100%", width: `${(Number(v) / 10) * 100}%`, background: S.red, borderRadius: 2 }} />
               </div>
               <div style={{ fontSize: 12, fontWeight: 700, color: S.text, minWidth: 24, textAlign: "right" }}>{v || 0}</div>
@@ -817,13 +817,13 @@ function ScoreGrid({ cats }) {
   return (
     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
       {Object.entries(groups).map(([cat, items]) => (
-        <div key={cat} style={{ background: "#0d0c13", border: `1px solid ${S.border}`, borderRadius: 8, padding: 10 }}>
+        <div key={cat} style={{ background: "#0B0D1A", border: `1px solid ${S.border}`, borderRadius: 8, padding: 10 }}>
           <div style={{ fontSize: 10, color: S.red, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>
             {catLabels[cat] || cat}
           </div>
           {items.map(item => (
             <div key={item.idx} style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 5 }}>
-              <div style={{ flex: 1, height: 3, background: "#2a2a2f", borderRadius: 2, overflow: "hidden" }}>
+              <div style={{ flex: 1, height: 3, background: "#2A2E48", borderRadius: 2, overflow: "hidden" }}>
                 <div style={{ height: "100%", width: `${(item.val / 5) * 100}%`, background: S.red, borderRadius: 2 }} />
               </div>
               <div style={{ fontSize: 11, fontWeight: 700, color: S.text, minWidth: 16, textAlign: "right" }}>{item.val}</div>

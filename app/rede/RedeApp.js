@@ -5,13 +5,13 @@ import { useState, useEffect } from "react";
 const KEY = "sportrail_rede_v1";
 
 const S = {
-  bg: "#0B0A0F", panel: "#13121a", border: "#2a2a2f",
-  red: "#ED1C24", text: "#f5f5f5", muted: "#888",
+  bg: "#0B0D1A", panel: "#161929", border: "#2A2E48",
+  red: "#DDB85C", text: "#E8EAF2", muted: "#5E6383",
   green: "#22c55e", yellow: "#eab308", blue: "#3b82f6",
 };
 
 const inp = {
-  background: "#1a1a1f", border: `1px solid ${S.border}`, borderRadius: 7,
+  background: "#1F2338", border: `1px solid ${S.border}`, borderRadius: 7,
   color: S.text, fontSize: 13, padding: "8px 11px", width: "100%",
   outline: "none", fontFamily: "inherit",
 };
@@ -118,7 +118,7 @@ function Btn({ children, onClick, variant = "primary", small }) {
   const styles = {
     primary: { ...base, background: S.red, color: "#fff" },
     ghost:   { ...base, background: "transparent", border: `1px solid ${S.border}`, color: S.muted },
-    danger:  { ...base, background: "transparent", border: `1px solid #ef444455`, color: "#ef4444" },
+    danger:  { ...base, background: "transparent", border: `1px solid #C4686855`, color: "#C46868" },
   };
   return <button type="button" onClick={onClick} style={styles[variant]}>{children}</button>;
 }
@@ -191,7 +191,7 @@ function TabDepartamento({ rede, update }) {
               const group = membros.filter(m => m.cargo === cargo);
               if (group.length === 0) return null;
               return (
-                <div key={cargo} style={{ background: "#0b0a0f", border: `1px solid ${S.border}`, borderRadius: 8, padding: "10px 14px", minWidth: 140 }}>
+                <div key={cargo} style={{ background: "#0B0D1A", border: `1px solid ${S.border}`, borderRadius: 8, padding: "10px 14px", minWidth: 140 }}>
                   <div style={{ fontSize: 9, color: S.red, textTransform: "uppercase", letterSpacing: 1.5, fontWeight: 800, marginBottom: 6 }}>{cargo}</div>
                   {group.map(m => (
                     <div key={m.id} style={{ fontSize: 12, color: S.text, marginBottom: 2 }}>{m.nome || <span style={{ color: S.muted, fontStyle: "italic" }}>sem nome</span>}</div>
@@ -257,7 +257,7 @@ function TabAreas({ rede, update }) {
           <SectionTitle>Resumo da Cobertura</SectionTitle>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
             {areas.map(a => (
-              <div key={a.id} style={{ background: "#0b0a0f", border: `1px solid ${prioColor[a.prioridade] || S.border}55`, borderRadius: 8, padding: "8px 14px" }}>
+              <div key={a.id} style={{ background: "#0B0D1A", border: `1px solid ${prioColor[a.prioridade] || S.border}55`, borderRadius: 8, padding: "8px 14px" }}>
                 <div style={{ fontSize: 10, color: prioColor[a.prioridade] || S.muted, fontWeight: 800, textTransform: "uppercase", letterSpacing: 1 }}>{a.prioridade}</div>
                 <div style={{ fontSize: 13, color: S.text, fontWeight: 700 }}>{a.nome || "Sem nome"}</div>
                 <div style={{ fontSize: 11, color: S.muted }}>{a.pais}</div>
@@ -409,14 +409,14 @@ function TabKPIs({ rede, update }) {
           <div style={{ marginBottom: 18 }}>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
               <span style={{ fontSize: 12, color: S.muted }}>Distribuição do orçamento</span>
-              <span style={{ fontSize: 13, fontWeight: 700, color: overBudget ? "#ef4444" : S.green }}>
+              <span style={{ fontSize: 13, fontWeight: 700, color: overBudget ? "#C46868" : S.green }}>
                 {orcUsed.toLocaleString("pt-PT")} € / {orcTotal.toLocaleString("pt-PT")} € ({pct}%)
               </span>
             </div>
             <div style={{ height: 8, background: "rgba(255,255,255,0.06)", borderRadius: 4, overflow: "hidden" }}>
-              <div style={{ height: "100%", width: `${pct}%`, background: overBudget ? "#ef4444" : S.green, borderRadius: 4, transition: "width 0.3s" }} />
+              <div style={{ height: "100%", width: `${pct}%`, background: overBudget ? "#C46868" : S.green, borderRadius: 4, transition: "width 0.3s" }} />
             </div>
-            {overBudget && <div style={{ fontSize: 11, color: "#ef4444", marginTop: 4 }}>⚠ A soma das rubricas excede o orçamento total</div>}
+            {overBudget && <div style={{ fontSize: 11, color: "#C46868", marginTop: 4 }}>⚠ A soma das rubricas excede o orçamento total</div>}
           </div>
         )}
 
