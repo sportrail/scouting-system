@@ -487,6 +487,7 @@ export default function Builder({ meshParams = null }) {
     const init = async () => {
       try {
         const supabase = createClient();
+        if (!supabase) return; // Supabase not configured — localStorage only
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return; // not authenticated — localStorage only
         setSbUser(user);
