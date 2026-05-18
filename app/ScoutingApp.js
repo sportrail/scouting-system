@@ -1528,13 +1528,11 @@ export default function Builder({ meshParams = null }) {
                 {r.foto && <button className="no-print" onClick={() => u("foto", "")} style={{ marginLeft: 10, fontSize: 11, background: "none", border: "none", color: "#A4A8C0", cursor: "pointer" }}>Remover</button>}
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 10 }}>
-                <div><label style={lbl}>Nome</label><input style={inp} value={r.nome} onChange={e=>u("nome",e.target.value)} /></div>
+                <div><label style={{...lbl, color: showValidation && !r.nome?.trim() ? "#C46868" : undefined}}>Nome *</label><input style={{...inp, ...(showValidation && !r.nome?.trim() ? { borderColor: "#C46868", boxShadow: "0 0 0 1px #C46868" } : {})}} value={r.nome} onChange={e=>u("nome",e.target.value)} /></div>
                 <div>
                   <label style={lbl}>Data nascimento{age != null && <span style={{ marginLeft: 6, color: S.red, fontWeight: 700 }}>{age} anos</span>}</label>
                   <input style={inp} type="date" value={r.dataNasc} onChange={e=>u("dataNasc",e.target.value)} />
                 </div>
-                <div><label style={{...lbl, color: showValidation && !r.nome?.trim() ? "#C46868" : undefined}}>Nome *</label><input style={{...inp, ...(showValidation && !r.nome?.trim() ? { borderColor: "#C46868", boxShadow: "0 0 0 1px #C46868" } : {})}} value={r.nome} onChange={e=>u("nome",e.target.value)} /></div>
-                <div><label style={lbl}>Data nascimento</label><input style={inp} type="date" value={r.dataNasc} onChange={e=>u("dataNasc",e.target.value)} /></div>
                 <div><label style={lbl}>Naturalidade</label><input style={inp} value={r.naturalidade} onChange={e=>u("naturalidade",e.target.value)} /></div>
                 <div><label style={lbl}>Nacionalidade</label><input style={inp} value={r.nacionalidade} onChange={e=>u("nacionalidade",e.target.value)} /></div>
                 <div><label style={{...lbl, color: showValidation && !r.clube?.trim() ? "#C46868" : undefined}}>Clube atual *</label><input style={{...inp, ...(showValidation && !r.clube?.trim() ? { borderColor: "#C46868", boxShadow: "0 0 0 1px #C46868" } : {})}} value={r.clube} onChange={e=>u("clube",e.target.value)} /></div>
