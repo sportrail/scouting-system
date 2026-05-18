@@ -1036,23 +1036,6 @@ export default function Builder({ meshParams = null }) {
           >{isDark ? "☀" : "☾"}</button>
         </div>
 
-        <a
-          href="/rede"
-          style={{
-            display: "flex", alignItems: "center", justifyContent: "space-between",
-            padding: "12px 16px", borderBottom: `1px solid ${S.border}`,
-            background: "rgba(221,184,92,0.06)", color: "#fff", textDecoration: "none",
-            fontSize: 12, fontWeight: 600, letterSpacing: 0.5
-          }}
-          title="Trabalho do aluno: criação da rede de scouting"
-        >
-          <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ fontSize: 14 }}>🌐</span>
-            <span>REDE DE SCOUTING</span>
-          </span>
-          <span style={{ fontSize: 10, color: S.red, fontWeight: 700 }}>TRABALHO →</span>
-        </a>
-
         {isTrainer && (
           <a
             href="/formador"
@@ -1545,13 +1528,11 @@ export default function Builder({ meshParams = null }) {
                 {r.foto && <button className="no-print" onClick={() => u("foto", "")} style={{ marginLeft: 10, fontSize: 11, background: "none", border: "none", color: "#A4A8C0", cursor: "pointer" }}>Remover</button>}
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 10 }}>
-                <div><label style={lbl}>Nome</label><input style={inp} value={r.nome} onChange={e=>u("nome",e.target.value)} /></div>
+                <div><label style={{...lbl, color: showValidation && !r.nome?.trim() ? "#C46868" : undefined}}>Nome *</label><input style={{...inp, ...(showValidation && !r.nome?.trim() ? { borderColor: "#C46868", boxShadow: "0 0 0 1px #C46868" } : {})}} value={r.nome} onChange={e=>u("nome",e.target.value)} /></div>
                 <div>
                   <label style={lbl}>Data nascimento{age != null && <span style={{ marginLeft: 6, color: S.red, fontWeight: 700 }}>{age} anos</span>}</label>
                   <input style={inp} type="date" value={r.dataNasc} onChange={e=>u("dataNasc",e.target.value)} />
                 </div>
-                <div><label style={{...lbl, color: showValidation && !r.nome?.trim() ? "#C46868" : undefined}}>Nome *</label><input style={{...inp, ...(showValidation && !r.nome?.trim() ? { borderColor: "#C46868", boxShadow: "0 0 0 1px #C46868" } : {})}} value={r.nome} onChange={e=>u("nome",e.target.value)} /></div>
-                <div><label style={lbl}>Data nascimento</label><input style={inp} type="date" value={r.dataNasc} onChange={e=>u("dataNasc",e.target.value)} /></div>
                 <div><label style={lbl}>Naturalidade</label><input style={inp} value={r.naturalidade} onChange={e=>u("naturalidade",e.target.value)} /></div>
                 <div><label style={lbl}>Nacionalidade</label><input style={inp} value={r.nacionalidade} onChange={e=>u("nacionalidade",e.target.value)} /></div>
                 <div><label style={{...lbl, color: showValidation && !r.clube?.trim() ? "#C46868" : undefined}}>Clube atual *</label><input style={{...inp, ...(showValidation && !r.clube?.trim() ? { borderColor: "#C46868", boxShadow: "0 0 0 1px #C46868" } : {})}} value={r.clube} onChange={e=>u("clube",e.target.value)} /></div>
