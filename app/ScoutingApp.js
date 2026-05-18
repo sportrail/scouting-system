@@ -74,6 +74,9 @@ const getAttrsForPos = (code) => {
 };
 
 const FORMACAO_DIM = ["Técnica","Tática","Física","Mental"];
+// Ferramenta dedicada a futebol sénior. Modo "Formação" escondido na UI
+// (código preservado). Voltar a true para reativar.
+const FORMACAO_ENABLED = false;
 const YOUTH_DIM  = ["Técnica individual","Compreensão de jogo","Condição física","Atitude competitiva","Aprendizagem","Projeção"];
 const YOUTH_ATTR = ["Controlo orientado","Passe","Condução","1v1","Finalização","Leitura de jogo","Tomada de decisão","Velocidade","Resistência","Liderança","Resiliência","Disciplina"];
 
@@ -1087,11 +1090,13 @@ export default function Builder({ meshParams = null }) {
 
         <div style={{ padding: 12, borderBottom: `1px solid ${S.border}`, display: "flex", flexDirection: "column", gap: 8 }}>
           <input style={{...inp, fontSize: 12}} placeholder="Pesquisar nome ou clube..." value={search} onChange={e=>setSearch(e.target.value)} />
+          {FORMACAO_ENABLED && (
           <select style={{...inp, fontSize: 12}} value={filterMode} onChange={e=>setFilterMode(e.target.value)}>
             <option value="all">Todos os modos</option>
             <option value="senior">Sénior</option>
             <option value="formacao">Formação</option>
           </select>
+          )}
           <select style={{...inp, fontSize: 12}} value={filterDec} onChange={e=>setFilterDec(e.target.value)}>
             <option value="all">Todas as decisões</option>
             {DECISIONS.map(d => <option key={d.id} value={d.id}>{d.label}</option>)}
@@ -1489,6 +1494,7 @@ export default function Builder({ meshParams = null }) {
         <main id="report" style={{ maxWidth: 1000, margin: "0 auto", padding: "24px 20px" }}>
 
           {/* ── MODO: toggle SÉNIOR / FORMAÇÃO ── */}
+          {FORMACAO_ENABLED && (
           <div className="no-print" style={{ display: "flex", gap: 8, marginBottom: 24 }}>
             {[
               { id: "senior",   label: "SÉNIOR",   desc: "28 parâmetros · 4 categorias" },
@@ -1506,6 +1512,7 @@ export default function Builder({ meshParams = null }) {
               </button>
             ))}
           </div>
+          )}
 
           <div id="s3-identification" style={sec}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14, flexWrap: "wrap", gap: 8 }}>
