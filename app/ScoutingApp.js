@@ -402,6 +402,9 @@ export default function Builder({ meshParams = null }) {
   const [store, setStore] = useState(loadStore);
   const [search, setSearch] = useState("");
   const [filterMode, setFilterMode] = useState("all");
+  const [fotoLink, setFotoLink] = useState("");
+  const [fotoBusy, setFotoBusy] = useState(false);
+  const [fotoErr, setFotoErr] = useState("");
   const [filterDec, setFilterDec] = useState("all");
   const [confirmDelete, setConfirmDelete] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -773,23 +776,46 @@ export default function Builder({ meshParams = null }) {
     }
   };
 
+  // Recorta a imagem (data URL) para 400×400 JPEG centrado.
+  const cropToDataUrl = (src) => new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      const c = document.createElement("canvas");
+      c.width = 400; c.height = 400;
+      const ctx = c.getContext("2d");
+      const size = Math.min(img.width, img.height);
+      const sx = (img.width - size) / 2, sy = (img.height - size) / 2;
+      ctx.drawImage(img, sx, sy, size, size, 0, 0, 400, 400);
+      resolve(c.toDataURL("image/jpeg", 0.85));
+    };
+    img.onerror = () => reject(new Error("imagem inválida"));
+    img.src = src;
+  });
+
   const onPhoto = (e) => {
     const f = e.target.files?.[0]; if (!f) return;
     const reader = new FileReader();
-    reader.onload = (ev) => {
-      const img = new Image();
-      img.onload = () => {
-        const c = document.createElement("canvas");
-        c.width = 400; c.height = 400;
-        const ctx = c.getContext("2d");
-        const size = Math.min(img.width, img.height);
-        const sx = (img.width - size) / 2, sy = (img.height - size) / 2;
-        ctx.drawImage(img, sx, sy, size, size, 0, 0, 400, 400);
-        u("foto", c.toDataURL("image/jpeg", 0.85));
-      };
-      img.src = ev.target.result;
-    };
+    reader.onload = (ev) => cropToDataUrl(ev.target.result).then(d => u("foto", d)).catch(() => {});
     reader.readAsDataURL(f);
+  };
+
+  // Cola o link do jogador (Transfermarkt / zerozero) e busca a foto.
+  const fetchFotoFromLink = async () => {
+    const link = fotoLink.trim();
+    if (!link) return;
+    setFotoBusy(true); setFotoErr("");
+    try {
+      const res = await fetch(`/api/foto?url=${encodeURIComponent(link)}`);
+      const data = await res.json();
+      if (!res.ok || !data.dataUrl) throw new Error(data.error || "Não foi possível obter a foto.");
+      const cropped = await cropToDataUrl(data.dataUrl);
+      u("foto", cropped);
+      setFotoLink("");
+    } catch (err) {
+      setFotoErr(err.message || "Erro ao buscar a foto.");
+    } finally {
+      setFotoBusy(false);
+    }
   };
 
   // ---------- v4: IMPORT JSON ----------
@@ -1533,6 +1559,22 @@ export default function Builder({ meshParams = null }) {
                   <span style={{ fontSize: 11, color: S.red, textDecoration: "underline" }}>{r.foto ? "Substituir" : "Carregar foto"}</span>
                 </label>
                 {r.foto && <button className="no-print" onClick={() => u("foto", "")} style={{ marginLeft: 10, fontSize: 11, background: "none", border: "none", color: "#A4A8C0", cursor: "pointer" }}>Remover</button>}
+                <div className="no-print" style={{ marginTop: 10 }}>
+                  <input
+                    style={{ ...inp, fontSize: 11, padding: "6px 8px" }}
+                    placeholder="Link Transfermarkt / zerozero…"
+                    value={fotoLink}
+                    onChange={e => setFotoLink(e.target.value)}
+                    onKeyDown={e => { if (e.key === "Enter") { e.preventDefault(); fetchFotoFromLink(); } }}
+                    disabled={fotoBusy}
+                  />
+                  <button
+                    onClick={fetchFotoFromLink}
+                    disabled={fotoBusy || !fotoLink.trim()}
+                    style={{ marginTop: 6, width: "100%", padding: "6px 8px", fontSize: 11, fontWeight: 600, borderRadius: 6, cursor: fotoBusy ? "default" : "pointer", border: `1px solid ${S.border}`, background: "rgba(221,184,92,0.1)", color: "#fff", opacity: fotoBusy || !fotoLink.trim() ? 0.5 : 1 }}
+                  >{fotoBusy ? "A buscar…" : "Buscar foto do link"}</button>
+                  {fotoErr && <div style={{ marginTop: 5, fontSize: 10, color: "#C46868" }}>{fotoErr}</div>}
+                </div>
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 10 }}>
                 <div><label style={{...lbl, color: showValidation && !r.nome?.trim() ? "#C46868" : undefined}}>Nome *</label><input style={{...inp, ...(showValidation && !r.nome?.trim() ? { borderColor: "#C46868", boxShadow: "0 0 0 1px #C46868" } : {})}} value={r.nome} onChange={e=>u("nome",e.target.value)} /></div>
