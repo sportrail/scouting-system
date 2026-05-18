@@ -3,6 +3,13 @@
 // página e devolve a imagem como data URL.
 //
 // Allowlist estrita de domínios para mitigar SSRF — só sites de futebol.
+//
+// O Transfermarkt usa anti-bot (Cloudflare) que costuma devolver 403 a
+// pedidos de IPs de datacenter (como os da Vercel). Para esses casos há
+// dois fallbacks:
+//   1. Página bloqueada → resolve o og:image via microlink (unfurl).
+//   2. CDN da imagem bloqueado → vai buscar a imagem (já validada) via
+//      proxy de imagem weserv.
 
 const PAGE_HOSTS = [
   "transfermarkt.com", "transfermarkt.pt", "transfermarkt.de",
@@ -15,6 +22,8 @@ const IMG_HOSTS = [
 
 const UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36";
 const MAX_BYTES = 6 * 1024 * 1024;
+const MICROLINK = "https://api.microlink.io/";
+const IMG_PROXY = "https://images.weserv.nl/";
 
 const hostAllowed = (host, list) =>
   list.some(h => host === h || host.endsWith("." + h));
@@ -49,6 +58,40 @@ function extractOgImage(html) {
   return null;
 }
 
+// Fallback de página: quando o site bloqueia o fetch direto (403 anti-bot),
+// deixa o microlink resolver a página e devolve-nos o og:image.
+async function ogImageViaMicrolink(pageUrl) {
+  const api = new URL(MICROLINK);
+  api.searchParams.set("url", pageUrl);
+  const headers = { Accept: "application/json" };
+  if (process.env.MICROLINK_API_KEY) headers["x-api-key"] = process.env.MICROLINK_API_KEY;
+  let res;
+  try {
+    res = await fetchWithTimeout(api.toString(), { headers }, 12000);
+  } catch {
+    return null;
+  }
+  if (!res.ok) return null;
+  const json = await res.json().catch(() => null);
+  if (!json || json.status !== "success") return null;
+  return json.data?.image?.url || json.data?.logo?.url || null;
+}
+
+// Fallback de imagem: o URL já foi validado contra IMG_HOSTS; se o CDN
+// recusar o nosso IP, vamos buscá-la via proxy de imagem weserv.
+async function fetchImageWithProxy(imageUrl) {
+  try {
+    const direct = await fetchWithTimeout(imageUrl, {
+      headers: { "User-Agent": UA, Referer: "https://www.transfermarkt.com/" },
+    });
+    if (direct.ok) return direct;
+  } catch { /* cai para o proxy */ }
+
+  const prox = new URL(IMG_PROXY);
+  prox.searchParams.set("url", imageUrl.replace(/^https?:\/\//, ""));
+  return fetchWithTimeout(prox.toString(), { headers: { Accept: "image/*" } }, 12000);
+}
+
 export async function GET(req) {
   const raw = new URL(req.url).searchParams.get("url");
   if (!raw) return Response.json({ error: "Falta o parâmetro url." }, { status: 400 });
@@ -66,14 +109,17 @@ export async function GET(req) {
     let imageUrl = target.toString();
 
     if (isPage) {
-      const pageRes = await fetchWithTimeout(target.toString(), {
-        headers: { "User-Agent": UA, "Accept-Language": "pt-PT,pt;q=0.9,en;q=0.8" },
-      });
-      if (!pageRes.ok) {
-        return Response.json({ error: `Página devolveu ${pageRes.status}.` }, { status: 502 });
-      }
-      const html = await pageRes.text();
-      const og = extractOgImage(html);
+      let og = null;
+      try {
+        const pageRes = await fetchWithTimeout(target.toString(), {
+          headers: { "User-Agent": UA, "Accept-Language": "pt-PT,pt;q=0.9,en;q=0.8" },
+        });
+        if (pageRes.ok) og = extractOgImage(await pageRes.text());
+      } catch { /* anti-bot ou timeout → fallback microlink */ }
+
+      // Fallback: página bloqueada (403) ou sem og:image → unfurl.
+      if (!og) og = await ogImageViaMicrolink(target.toString());
+
       if (!og) {
         return Response.json({ error: "Não foi encontrada foto nesta página." }, { status: 404 });
       }
@@ -84,9 +130,7 @@ export async function GET(req) {
       imageUrl = ogUrl.toString();
     }
 
-    const imgRes = await fetchWithTimeout(imageUrl, {
-      headers: { "User-Agent": UA, "Referer": "https://www.transfermarkt.com/" },
-    });
+    const imgRes = await fetchImageWithProxy(imageUrl);
     if (!imgRes.ok) {
       return Response.json({ error: `Imagem devolveu ${imgRes.status}.` }, { status: 502 });
     }
