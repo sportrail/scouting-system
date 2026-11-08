@@ -19,8 +19,58 @@ const S = {
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [otpCode, setOtpCode] = useState("");
-  const [status, setStatus] = useState("idle"); // idle | sending | code_sent | verifying | error
+  const [status, setStatus] = useState("idle"); // idle | sending | code_sent | verifying | error | request | req_sending | request_sent
   const [errorMsg, setErrorMsg] = useState("");
+  const [notRegistered, setNotRegistered] = useState(false);
+
+  // Fluxo "Pedir acesso"
+  const [reqName, setReqName] = useState("");
+  const [reqEmail, setReqEmail] = useState("");
+  const [reqError, setReqError] = useState("");
+
+  const openRequest = () => {
+    setReqEmail(email.trim().toLowerCase());
+    setReqError("");
+    setErrorMsg("");
+    setNotRegistered(false);
+    setStatus("request");
+  };
+
+  const onRequestAccess = async (e) => {
+    e.preventDefault();
+    setReqError("");
+
+    const nm = reqName.trim();
+    const em = reqEmail.trim().toLowerCase();
+    if (nm.length < 2) {
+      setReqError("Indica o teu nome.");
+      return;
+    }
+    if (!em || !em.includes("@")) {
+      setReqError("Indica um email válido.");
+      return;
+    }
+
+    setStatus("req_sending");
+    try {
+      const res = await fetch("/api/request-access", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: nm, email: em }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setReqError(data.error || "Não foi possível enviar o pedido. Tenta de novo.");
+        setStatus("request");
+        return;
+      }
+      setStatus("request_sent");
+    } catch (err) {
+      console.error("request-access error:", err);
+      setReqError("Erro de rede. Verifica a tua ligação e tenta de novo.");
+      setStatus("request");
+    }
+  };
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -49,9 +99,10 @@ export default function LoginPage() {
           error.status === 422 ||
           error.status === 400;
         setStatus("error");
+        setNotRegistered(notFound);
         setErrorMsg(
           notFound
-            ? "Este email não está registado na plataforma. Contacta a Sportrail."
+            ? "Este email ainda não tem acesso à plataforma."
             : error.message || "Erro ao enviar o código. Tenta de novo."
         );
         return;
@@ -154,6 +205,72 @@ export default function LoginPage() {
               ← Voltar
             </button>
           </div>
+        ) : status === "request_sent" ? (
+          /* Pedido de acesso enviado */
+          <div style={{ marginTop: 28, textAlign: "center" }}>
+            <div style={{ fontSize: 36, marginBottom: 10 }}>✅</div>
+            <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 6 }}>Pedido enviado</div>
+            <div style={{ fontSize: 13, color: S.muted, lineHeight: 1.5, marginBottom: 24 }}>
+              A Sportrail vai rever o teu pedido. Quando a tua conta for activada,
+              recebes acesso e podes entrar com o teu email.
+            </div>
+            <button
+              onClick={() => { setStatus("idle"); setErrorMsg(""); setNotRegistered(false); }}
+              style={{ ...btnStyle, background: "transparent", color: S.muted, fontSize: 12 }}
+            >
+              ← Voltar ao login
+            </button>
+          </div>
+        ) : status === "request" || status === "req_sending" ? (
+          /* Formulário: pedir acesso */
+          <form onSubmit={onRequestAccess} style={{ marginTop: 28 }}>
+            <div style={{ fontSize: 13, color: S.muted, lineHeight: 1.5, marginBottom: 20 }}>
+              Ainda não tens acesso? Deixa os teus dados e a Sportrail activa a tua conta.
+            </div>
+
+            <label style={labelStyle}>Nome</label>
+            <input
+              type="text"
+              value={reqName}
+              onChange={(e) => setReqName(e.target.value)}
+              placeholder="O teu nome"
+              autoComplete="name"
+              disabled={status === "req_sending"}
+              style={{ ...inputStyle, marginBottom: 16 }}
+              autoFocus
+            />
+
+            <label style={labelStyle}>Email</label>
+            <input
+              type="email"
+              value={reqEmail}
+              onChange={(e) => setReqEmail(e.target.value)}
+              placeholder="teu@email.pt"
+              autoComplete="email"
+              disabled={status === "req_sending"}
+              style={{ ...inputStyle, marginBottom: 22 }}
+            />
+
+            {reqError && (
+              <div style={errorBox}>{reqError}</div>
+            )}
+
+            <button
+              type="submit"
+              disabled={status === "req_sending"}
+              style={{ ...btnStyle, background: status === "req_sending" ? "#5E6383" : S.red, cursor: status === "req_sending" ? "wait" : "pointer" }}
+            >
+              {status === "req_sending" ? "A enviar..." : "Pedir acesso"}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => { setStatus("idle"); setReqError(""); }}
+              style={{ ...btnStyle, background: "transparent", color: S.muted, marginTop: 14, fontSize: 12 }}
+            >
+              ← Voltar ao login
+            </button>
+          </form>
         ) : (
           /* Step 1: Enter email */
           <form onSubmit={onSubmit} style={{ marginTop: 28 }}>
@@ -183,6 +300,25 @@ export default function LoginPage() {
             >
               {status === "sending" ? "A enviar..." : "Receber código de acesso"}
             </button>
+
+            <div style={{ textAlign: "center", marginTop: 18 }}>
+              {notRegistered && (
+                <div style={{ fontSize: 12, color: S.text, marginBottom: 8 }}>
+                  Precisas de pedir acesso à Sportrail.
+                </div>
+              )}
+              <button
+                type="button"
+                onClick={openRequest}
+                style={{
+                  background: "transparent", border: "none", color: S.red,
+                  fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: "inherit",
+                  textDecoration: "underline", padding: 0,
+                }}
+              >
+                Ainda não tens acesso? Pedir acesso →
+              </button>
+            </div>
           </form>
         )}
 
